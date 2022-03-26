@@ -1,4 +1,4 @@
-# Indigo
+# indigo
 indigo is a [WebARENA Indigo API](https://indigo.arena.ne.jp/userapi/) client written in Go.
 
 ## Installation
@@ -26,7 +26,7 @@ node03   Running   17d   xxx.xxx.xxx.xxx   Ubuntu20.04   2CR2GB
 ```
 ### Listing Firewalls
 ```console
-$ indigo get fw
+$ indigo get firewalls
 NAME      AGE
 default   30d
 outbound  15d
