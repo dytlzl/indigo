@@ -1,0 +1,69 @@
+kind: Firewall
+name: default
+inbound:
+  # Web
+  - type: HTTPS
+    protocol: TCP
+    port: 443
+    source: 0.0.0.0/0
+  - type: HTTP
+    protocol: TCP
+    port: 80
+    source: 0.0.0.0/0
+  # Node-TCP
+  - type: All TCP
+    protocol: TCP
+    port: All Ports
+    source: node00
+  - type: All TCP
+    protocol: TCP
+    port: All Ports
+    source: node01
+  - type: All TCP
+    protocol: TCP
+    port: All Ports
+    source: node02
+  - type: All TCP
+    protocol: TCP
+    port: All Ports
+    source: node03
+  # Node-UDP
+  - type: All UDP
+    protocol: UDP
+    port: All Ports
+    source: node00
+  - type: All UDP
+    protocol: UDP
+    port: All Ports
+    source: node01
+  - type: All UDP
+    protocol: UDP
+    port: All Ports
+    source: node02
+  - type: All UDP
+    protocol: UDP
+    port: All Ports
+    source: node03
+  # Node-ICMP
+  - type: Custom
+    protocol: ICMP
+    port: ""
+    source: node00
+  - type: Custom
+    protocol: ICMP
+    port: ""
+    source: node01
+  - type: Custom
+    protocol: ICMP
+    port: ""
+    source: node02
+  - type: Custom
+    protocol: ICMP
+    port: ""
+    source: node03
+outbound: []
+instances:
+  - node00
+  - node01
+  - node02
+  - node03
