@@ -59,6 +59,7 @@ var deleteFirewallCmd = &cobra.Command{
 		}
 	},
 }
+
 func init() {
 	deleteCmd.AddCommand(deleteInstanceCmd)
 	deleteCmd.AddCommand(deleteFirewallCmd)

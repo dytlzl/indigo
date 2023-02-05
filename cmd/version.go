@@ -7,8 +7,8 @@ import (
 )
 
 var (
-    Version string = "not provided"
-    Revision string = "not provided"
+	Version  string = "not provided"
+	Revision string = "not provided"
 )
 
 // versionCmd represents the version command

@@ -22,8 +22,8 @@ func NewInstanceUsecase(i domain.InstanceRepository) domain.InstanceUsecase {
 	}
 }
 
-func (i *instanceUsecase) List(ctx context.Context) error {
-	instances, err := i.instanceRepository.List(ctx)
+func (u *instanceUsecase) List(ctx context.Context) error {
+	instances, err := u.instanceRepository.List(ctx)
 	if err != nil {
 		return err
 	}
@@ -39,16 +39,16 @@ func (i *instanceUsecase) List(ctx context.Context) error {
 	return nil
 }
 
-func (i *instanceUsecase) Create(ctx context.Context, name string, planID int, osID int, regionID int, sshKeyID int) error {
-	return i.instanceRepository.Create(ctx, name, planID, osID, regionID, sshKeyID)
+func (u *instanceUsecase) Create(ctx context.Context, name string, planID int, osID int, regionID int, sshKeyID int) error {
+	return u.instanceRepository.Create(ctx, name, planID, osID, regionID, sshKeyID)
 }
 
-func (i *instanceUsecase) Start(ctx context.Context, name string) error {
-	id, err := i.getIDFromName(ctx, name)
+func (u *instanceUsecase) Start(ctx context.Context, name string) error {
+	id, err := u.getIDFromName(ctx, name)
 	if err != nil {
 		return err
 	}
-	err = i.instanceRepository.UpdateStatus(ctx, id, "start")
+	err = u.instanceRepository.UpdateStatus(ctx, id, "start")
 	if err != nil {
 		return err
 	}
@@ -56,25 +56,12 @@ func (i *instanceUsecase) Start(ctx context.Context, name string) error {
 	return nil
 }
 
-func (i *instanceUsecase) Stop(ctx context.Context, name string) error {
-	id, err := i.getIDFromName(ctx, name)
+func (u *instanceUsecase) Stop(ctx context.Context, name string) error {
+	id, err := u.getIDFromName(ctx, name)
 	if err != nil {
 		return err
 	}
-	err = i.instanceRepository.UpdateStatus(ctx, id, "stop")
-	if err != nil {
-		return err
-	}
-	fmt.Printf("instance \"%s\" stopped\n", name)
-	return nil
-}
-
-func (i *instanceUsecase) ForceStop(ctx context.Context, name string) error {
-	id, err := i.getIDFromName(ctx, name)
-	if err != nil {
-		return err
-	}
-	err = i.instanceRepository.UpdateStatus(ctx, id, "forcestop")
+	err = u.instanceRepository.UpdateStatus(ctx, id, "stop")
 	if err != nil {
 		return err
 	}
@@ -82,12 +69,25 @@ func (i *instanceUsecase) ForceStop(ctx context.Context, name string) error {
 	return nil
 }
 
-func (i *instanceUsecase) Delete(ctx context.Context, name string) error {
-	id, err := i.getIDFromName(ctx, name)
+func (u *instanceUsecase) ForceStop(ctx context.Context, name string) error {
+	id, err := u.getIDFromName(ctx, name)
 	if err != nil {
 		return err
 	}
-	err = i.instanceRepository.UpdateStatus(ctx, id, "destroy")
+	err = u.instanceRepository.UpdateStatus(ctx, id, "forcestop")
+	if err != nil {
+		return err
+	}
+	fmt.Printf("instance \"%s\" stopped\n", name)
+	return nil
+}
+
+func (u *instanceUsecase) Delete(ctx context.Context, name string) error {
+	id, err := u.getIDFromName(ctx, name)
+	if err != nil {
+		return err
+	}
+	err = u.instanceRepository.UpdateStatus(ctx, id, "destroy")
 	if err != nil {
 		return err
 	}
@@ -95,8 +95,8 @@ func (i *instanceUsecase) Delete(ctx context.Context, name string) error {
 	return nil
 }
 
-func (i *instanceUsecase) getIDFromName(ctx context.Context, name string) (int, error) {
-	instances, err := i.instanceRepository.List(ctx)
+func (u *instanceUsecase) getIDFromName(ctx context.Context, name string) (int, error) {
+	instances, err := u.instanceRepository.List(ctx)
 	if err != nil {
 		return 0, err
 	}

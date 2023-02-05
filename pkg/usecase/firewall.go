@@ -26,8 +26,8 @@ func NewFirewallUsecase(fr domain.FirewallRepository, ir domain.InstanceReposito
 	}
 }
 
-func (i *firewallUsecase) List(ctx context.Context) error {
-	firewalls, err := i.firewallRepository.List(ctx)
+func (u *firewallUsecase) List(ctx context.Context) error {
+	firewalls, err := u.firewallRepository.List(ctx)
 	if err != nil {
 		return err
 	}
@@ -42,14 +42,14 @@ func (i *firewallUsecase) List(ctx context.Context) error {
 	return nil
 }
 
-func (i *firewallUsecase) Get(ctx context.Context, target string) error {
-	fws, err := i.firewallRepository.List(ctx)
+func (u *firewallUsecase) Get(ctx context.Context, target string) error {
+	fws, err := u.firewallRepository.List(ctx)
 	if err != nil {
 		return err
 	}
 	for _, element := range fws {
 		if target == element.Name {
-			firewall, err := i.firewallRepository.Get(ctx, element.ID)
+			firewall, err := u.firewallRepository.Get(ctx, element.ID)
 			if err != nil {
 				return err
 			}
@@ -79,14 +79,14 @@ func (i *firewallUsecase) Get(ctx context.Context, target string) error {
 	return fmt.Errorf("firewall \"%s\" not found\n", target)
 }
 
-func (i *firewallUsecase) Apply(ctx context.Context, fileBody []byte) error {
+func (u *firewallUsecase) Apply(ctx context.Context, fileBody []byte) error {
 	fw := domain.Firewall{}
 	err := yaml.Unmarshal(fileBody, &fw)
 	if err != nil {
 		return err
 	}
 	fw.ID = 0
-	fws, err := i.firewallRepository.List(ctx)
+	fws, err := u.firewallRepository.List(ctx)
 	if err != nil {
 		return err
 	}
@@ -95,7 +95,7 @@ func (i *firewallUsecase) Apply(ctx context.Context, fileBody []byte) error {
 			fw.ID = element.ID
 		}
 	}
-	instanceNameMap, err := i.getInstanceNameMap(ctx)
+	instanceNameMap, err := u.getInstanceNameMap(ctx)
 	if err != nil {
 		return err
 	}
@@ -130,13 +130,13 @@ func (i *firewallUsecase) Apply(ctx context.Context, fileBody []byte) error {
 		}
 	}
 	if fw.ID == 0 {
-		err = i.firewallRepository.Create(ctx, &fw)
+		err = u.firewallRepository.Create(ctx, &fw)
 		if err != nil {
 			return err
 		}
 		fmt.Printf("firewall \"%s\" created\n", fw.Name)
 	} else {
-		err = i.firewallRepository.Update(ctx, &fw)
+		err = u.firewallRepository.Update(ctx, &fw)
 		if err != nil {
 			return err
 		}
@@ -145,8 +145,8 @@ func (i *firewallUsecase) Apply(ctx context.Context, fileBody []byte) error {
 	return nil
 }
 
-func (i *firewallUsecase) getInstanceNameMap(ctx context.Context) (map[string]domain.Instance, error) {
-	instances, err := i.instanceRepository.List(ctx)
+func (u *firewallUsecase) getInstanceNameMap(ctx context.Context) (map[string]domain.Instance, error) {
+	instances, err := u.instanceRepository.List(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -157,14 +157,14 @@ func (i *firewallUsecase) getInstanceNameMap(ctx context.Context) (map[string]do
 	return instanceNameMap, nil
 }
 
-func (i *firewallUsecase) Delete(ctx context.Context, target string) error {
-	fws, err := i.firewallRepository.List(ctx)
+func (u *firewallUsecase) Delete(ctx context.Context, target string) error {
+	fws, err := u.firewallRepository.List(ctx)
 	if err != nil {
 		return err
 	}
 	for _, element := range fws {
 		if target == element.Name {
-			err = i.firewallRepository.Delete(ctx, element.ID)
+			err = u.firewallRepository.Delete(ctx, element.ID)
 			if err != nil {
 				return err
 			}

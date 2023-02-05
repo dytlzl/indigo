@@ -57,7 +57,7 @@ var createInstanceCmd = &cobra.Command{
 
 func init() {
 	createInstanceCmd.Flags().Int("plan-id", -1, "plan(Size) ID")
-	createInstanceCmd.Flags().Int("os-id", 6, "OS ID (Ubuntu 20.04 6)")
+	createInstanceCmd.Flags().Int("os-id", 13, "OS ID (Ubuntu 22.04 13)")
 	createInstanceCmd.Flags().Int("region-id", 1, "region ID")
 	createInstanceCmd.Flags().Int("ssh-key-id", -1, "SSH key ID")
 	createInstanceCmd.MarkFlagRequired("plan-id")
