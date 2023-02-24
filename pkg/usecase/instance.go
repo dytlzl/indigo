@@ -20,7 +20,7 @@ type InstanceRepository interface {
 	UpdateStatus(ctx context.Context, id int, status string) error
 }
 
-type InstanceUsecase interface {
+type InstanceUseCase interface {
 	List(ctx context.Context) error
 	Create(ctx context.Context, name string, planID int, osID int, regionID int, sshKeyID int) error
 	Start(ctx context.Context, name string) error
@@ -29,17 +29,17 @@ type InstanceUsecase interface {
 	Delete(ctx context.Context, name string) error
 }
 
-type instanceUsecase struct {
+type instanceUseCase struct {
 	instanceRepository InstanceRepository
 }
 
-func NewInstanceUsecase(i InstanceRepository) InstanceUsecase {
-	return &instanceUsecase{
+func NewInstanceUseCase(i InstanceRepository) InstanceUseCase {
+	return &instanceUseCase{
 		instanceRepository: i,
 	}
 }
 
-func (u *instanceUsecase) List(ctx context.Context) error {
+func (u *instanceUseCase) List(ctx context.Context) error {
 	instances, err := u.instanceRepository.List(ctx)
 	if err != nil {
 		return err
@@ -56,11 +56,11 @@ func (u *instanceUsecase) List(ctx context.Context) error {
 	return nil
 }
 
-func (u *instanceUsecase) Create(ctx context.Context, name string, planID int, osID int, regionID int, sshKeyID int) error {
+func (u *instanceUseCase) Create(ctx context.Context, name string, planID int, osID int, regionID int, sshKeyID int) error {
 	return u.instanceRepository.Create(ctx, name, planID, osID, regionID, sshKeyID)
 }
 
-func (u *instanceUsecase) Start(ctx context.Context, name string) error {
+func (u *instanceUseCase) Start(ctx context.Context, name string) error {
 	id, err := u.getIDFromName(ctx, name)
 	if err != nil {
 		return err
@@ -73,7 +73,7 @@ func (u *instanceUsecase) Start(ctx context.Context, name string) error {
 	return nil
 }
 
-func (u *instanceUsecase) Stop(ctx context.Context, name string) error {
+func (u *instanceUseCase) Stop(ctx context.Context, name string) error {
 	id, err := u.getIDFromName(ctx, name)
 	if err != nil {
 		return err
@@ -86,7 +86,7 @@ func (u *instanceUsecase) Stop(ctx context.Context, name string) error {
 	return nil
 }
 
-func (u *instanceUsecase) ForceStop(ctx context.Context, name string) error {
+func (u *instanceUseCase) ForceStop(ctx context.Context, name string) error {
 	id, err := u.getIDFromName(ctx, name)
 	if err != nil {
 		return err
@@ -99,7 +99,7 @@ func (u *instanceUsecase) ForceStop(ctx context.Context, name string) error {
 	return nil
 }
 
-func (u *instanceUsecase) Delete(ctx context.Context, name string) error {
+func (u *instanceUseCase) Delete(ctx context.Context, name string) error {
 	id, err := u.getIDFromName(ctx, name)
 	if err != nil {
 		return err
@@ -112,7 +112,7 @@ func (u *instanceUsecase) Delete(ctx context.Context, name string) error {
 	return nil
 }
 
-func (u *instanceUsecase) getIDFromName(ctx context.Context, name string) (int, error) {
+func (u *instanceUseCase) getIDFromName(ctx context.Context, name string) (int, error) {
 	instances, err := u.instanceRepository.List(ctx)
 	if err != nil {
 		return 0, err

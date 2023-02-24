@@ -18,13 +18,13 @@ type apiFirewallRepository struct {
 }
 
 type firewallListResponse struct {
-	Id        int    `json:"id"`
+	ID        int    `json:"id"`
 	Name      string `json:"name"`
-	ServiceId string `json:"service_id"`
+	ServiceID string `json:"service_id"`
 	Status    int    `json:"status"`
 	CreatedAt string `json:"created_at"`
 	UpdatedAt string `json:"updated_at"`
-	UserId    int    `json:"user_id"`
+	UserID    int    `json:"user_id"`
 }
 
 func NewAPIFirewallRepository(client *api.Client) usecase.FirewallRepository {
@@ -43,7 +43,7 @@ func (a *apiFirewallRepository) List(ctx context.Context) ([]domain.Firewall, er
 	}
 	firewalls := make([]domain.Firewall, len(firewallList))
 	for index, firewall := range firewallList {
-		firewalls[index].ID = firewall.Id
+		firewalls[index].ID = firewall.ID
 		firewalls[index].Name = firewall.Name
 		t, _ := time.Parse("2006-01-02 15:04:05", firewall.CreatedAt)
 		firewalls[index].CreatedAt = t
@@ -52,7 +52,7 @@ func (a *apiFirewallRepository) List(ctx context.Context) ([]domain.Firewall, er
 }
 
 type templateResponse struct {
-	Id        int    `json:"id"`
+	ID        int    `json:"id"`
 	Name      string `json:"name"`
 	Type      string `json:"type"`
 	Direction string `json:"direction"`
@@ -90,7 +90,7 @@ func (a *apiFirewallRepository) Get(ctx context.Context, id int) (*domain.Firewa
 }
 
 type FirewallRequest struct {
-	TemplateId int           `json:"templateid"`
+	TemplateID int           `json:"templateid"`
 	Name       string        `json:"name"`
 	Inbound    []domain.Rule `json:"inbound"`
 	Outbound   []domain.Rule `json:"outbound"`
@@ -99,7 +99,7 @@ type FirewallRequest struct {
 
 func (a *apiFirewallRepository) Update(ctx context.Context, fw *domain.Firewall) error {
 	firewallRequest := FirewallRequest{}
-	firewallRequest.TemplateId = fw.ID
+	firewallRequest.TemplateID = fw.ID
 	firewallRequest.Name = fw.Name
 	firewallRequest.Inbound = fw.Inbound
 	firewallRequest.Outbound = fw.Outbound
@@ -118,7 +118,7 @@ func (a *apiFirewallRepository) Update(ctx context.Context, fw *domain.Firewall)
 
 func (a *apiFirewallRepository) Create(ctx context.Context, fw *domain.Firewall) error {
 	firewallRequest := FirewallRequest{}
-	firewallRequest.TemplateId = fw.ID
+	firewallRequest.TemplateID = fw.ID
 	firewallRequest.Name = fw.Name
 	firewallRequest.Inbound = fw.Inbound
 	firewallRequest.Outbound = fw.Outbound

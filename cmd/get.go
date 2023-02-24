@@ -15,7 +15,7 @@ var getInstanceCmd = &cobra.Command{
 	Aliases: []string{"i", "instances"},
 	Short:   "Get instance(s)",
 	RunE: func(cmd *cobra.Command, args []string) error {
-		return instanceUsecase.List(cmd.Context())
+		return instanceUseCase.List(cmd.Context())
 	},
 }
 
@@ -26,12 +26,12 @@ var getFirewallCmd = &cobra.Command{
 	Short:   "Get firewall(s)",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		if len(args) != 0 {
-			err := firewallUsecase.Get(cmd.Context(), args[0])
+			err := firewallUseCase.Get(cmd.Context(), args[0])
 			if err != nil {
 				return err
 			}
 		} else {
-			err := firewallUsecase.List(cmd.Context())
+			err := firewallUseCase.List(cmd.Context())
 			if err != nil {
 				return err
 			}

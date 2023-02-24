@@ -107,31 +107,31 @@ func (mr *MockFirewallRepositoryMockRecorder) Update(ctx, fw interface{}) *gomoc
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Update", reflect.TypeOf((*MockFirewallRepository)(nil).Update), ctx, fw)
 }
 
-// MockFirewallUsecase is a mock of FirewallUsecase interface.
-type MockFirewallUsecase struct {
+// MockFirewallUseCase is a mock of FirewallUseCase interface.
+type MockFirewallUseCase struct {
 	ctrl     *gomock.Controller
-	recorder *MockFirewallUsecaseMockRecorder
+	recorder *MockFirewallUseCaseMockRecorder
 }
 
-// MockFirewallUsecaseMockRecorder is the mock recorder for MockFirewallUsecase.
-type MockFirewallUsecaseMockRecorder struct {
-	mock *MockFirewallUsecase
+// MockFirewallUseCaseMockRecorder is the mock recorder for MockFirewallUseCase.
+type MockFirewallUseCaseMockRecorder struct {
+	mock *MockFirewallUseCase
 }
 
-// NewMockFirewallUsecase creates a new mock instance.
-func NewMockFirewallUsecase(ctrl *gomock.Controller) *MockFirewallUsecase {
-	mock := &MockFirewallUsecase{ctrl: ctrl}
-	mock.recorder = &MockFirewallUsecaseMockRecorder{mock}
+// NewMockFirewallUseCase creates a new mock instance.
+func NewMockFirewallUseCase(ctrl *gomock.Controller) *MockFirewallUseCase {
+	mock := &MockFirewallUseCase{ctrl: ctrl}
+	mock.recorder = &MockFirewallUseCaseMockRecorder{mock}
 	return mock
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockFirewallUsecase) EXPECT() *MockFirewallUsecaseMockRecorder {
+func (m *MockFirewallUseCase) EXPECT() *MockFirewallUseCaseMockRecorder {
 	return m.recorder
 }
 
 // Apply mocks base method.
-func (m *MockFirewallUsecase) Apply(ctx context.Context, fileBody []byte) error {
+func (m *MockFirewallUseCase) Apply(ctx context.Context, fileBody []byte) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Apply", ctx, fileBody)
 	ret0, _ := ret[0].(error)
@@ -139,13 +139,13 @@ func (m *MockFirewallUsecase) Apply(ctx context.Context, fileBody []byte) error 
 }
 
 // Apply indicates an expected call of Apply.
-func (mr *MockFirewallUsecaseMockRecorder) Apply(ctx, fileBody interface{}) *gomock.Call {
+func (mr *MockFirewallUseCaseMockRecorder) Apply(ctx, fileBody interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Apply", reflect.TypeOf((*MockFirewallUsecase)(nil).Apply), ctx, fileBody)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Apply", reflect.TypeOf((*MockFirewallUseCase)(nil).Apply), ctx, fileBody)
 }
 
 // Delete mocks base method.
-func (m *MockFirewallUsecase) Delete(ctx context.Context, target string) error {
+func (m *MockFirewallUseCase) Delete(ctx context.Context, target string) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Delete", ctx, target)
 	ret0, _ := ret[0].(error)
@@ -153,13 +153,13 @@ func (m *MockFirewallUsecase) Delete(ctx context.Context, target string) error {
 }
 
 // Delete indicates an expected call of Delete.
-func (mr *MockFirewallUsecaseMockRecorder) Delete(ctx, target interface{}) *gomock.Call {
+func (mr *MockFirewallUseCaseMockRecorder) Delete(ctx, target interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockFirewallUsecase)(nil).Delete), ctx, target)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockFirewallUseCase)(nil).Delete), ctx, target)
 }
 
 // Get mocks base method.
-func (m *MockFirewallUsecase) Get(ctx context.Context, target string) error {
+func (m *MockFirewallUseCase) Get(ctx context.Context, target string) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Get", ctx, target)
 	ret0, _ := ret[0].(error)
@@ -167,13 +167,13 @@ func (m *MockFirewallUsecase) Get(ctx context.Context, target string) error {
 }
 
 // Get indicates an expected call of Get.
-func (mr *MockFirewallUsecaseMockRecorder) Get(ctx, target interface{}) *gomock.Call {
+func (mr *MockFirewallUseCaseMockRecorder) Get(ctx, target interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Get", reflect.TypeOf((*MockFirewallUsecase)(nil).Get), ctx, target)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Get", reflect.TypeOf((*MockFirewallUseCase)(nil).Get), ctx, target)
 }
 
 // List mocks base method.
-func (m *MockFirewallUsecase) List(ctx context.Context) error {
+func (m *MockFirewallUseCase) List(ctx context.Context) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "List", ctx)
 	ret0, _ := ret[0].(error)
@@ -181,7 +181,7 @@ func (m *MockFirewallUsecase) List(ctx context.Context) error {
 }
 
 // List indicates an expected call of List.
-func (mr *MockFirewallUsecaseMockRecorder) List(ctx interface{}) *gomock.Call {
+func (mr *MockFirewallUseCaseMockRecorder) List(ctx interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*MockFirewallUsecase)(nil).List), ctx)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*MockFirewallUseCase)(nil).List), ctx)
 }

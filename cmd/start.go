@@ -10,7 +10,7 @@ var startCmd = &cobra.Command{
 	Short: "Start an instance",
 	Args:  cobra.ExactArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
-		return instanceUsecase.Start(cmd.Context(), args[0])
+		return instanceUseCase.Start(cmd.Context(), args[0])
 	},
 }
 

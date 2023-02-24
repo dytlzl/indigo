@@ -28,7 +28,7 @@ var applyCmd = &cobra.Command{
 		}
 		switch manifestFile.Kind {
 		case "Firewall":
-			err = firewallUsecase.Apply(cmd.Context(), fileBody)
+			err = firewallUseCase.Apply(cmd.Context(), fileBody)
 			if err != nil {
 				return err
 			}

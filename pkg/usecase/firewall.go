@@ -24,26 +24,26 @@ type FirewallRepository interface {
 	Delete(ctx context.Context, id int) error
 }
 
-type FirewallUsecase interface {
+type FirewallUseCase interface {
 	List(ctx context.Context) error
 	Get(ctx context.Context, target string) error
 	Apply(ctx context.Context, fileBody []byte) error
 	Delete(ctx context.Context, target string) error
 }
 
-type firewallUsecase struct {
+type firewallUseCase struct {
 	firewallRepository FirewallRepository
 	instanceRepository InstanceRepository
 }
 
-func NewFirewallUsecase(fr FirewallRepository, ir InstanceRepository) FirewallUsecase {
-	return &firewallUsecase{
+func NewFirewallUseCase(fr FirewallRepository, ir InstanceRepository) FirewallUseCase {
+	return &firewallUseCase{
 		firewallRepository: fr,
 		instanceRepository: ir,
 	}
 }
 
-func (u *firewallUsecase) List(ctx context.Context) error {
+func (u *firewallUseCase) List(ctx context.Context) error {
 	firewalls, err := u.firewallRepository.List(ctx)
 	if err != nil {
 		return err
@@ -59,7 +59,7 @@ func (u *firewallUsecase) List(ctx context.Context) error {
 	return nil
 }
 
-func (u *firewallUsecase) Get(ctx context.Context, target string) error {
+func (u *firewallUseCase) Get(ctx context.Context, target string) error {
 	fws, err := u.firewallRepository.List(ctx)
 	if err != nil {
 		return err
@@ -96,7 +96,7 @@ func (u *firewallUsecase) Get(ctx context.Context, target string) error {
 	return fmt.Errorf("firewall \"%s\" not found", target)
 }
 
-func (u *firewallUsecase) Apply(ctx context.Context, fileBody []byte) error {
+func (u *firewallUseCase) Apply(ctx context.Context, fileBody []byte) error {
 	fw := domain.Firewall{}
 	err := yaml.Unmarshal(fileBody, &fw)
 	if err != nil {
@@ -162,7 +162,7 @@ func (u *firewallUsecase) Apply(ctx context.Context, fileBody []byte) error {
 	return nil
 }
 
-func (u *firewallUsecase) getInstanceNameMap(ctx context.Context) (map[string]domain.Instance, error) {
+func (u *firewallUseCase) getInstanceNameMap(ctx context.Context) (map[string]domain.Instance, error) {
 	instances, err := u.instanceRepository.List(ctx)
 	if err != nil {
 		return nil, err
@@ -174,7 +174,7 @@ func (u *firewallUsecase) getInstanceNameMap(ctx context.Context) (map[string]do
 	return instanceNameMap, nil
 }
 
-func (u *firewallUsecase) Delete(ctx context.Context, target string) error {
+func (u *firewallUseCase) Delete(ctx context.Context, target string) error {
 	fws, err := u.firewallRepository.List(ctx)
 	if err != nil {
 		return err

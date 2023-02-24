@@ -16,7 +16,7 @@ var deleteInstanceCmd = &cobra.Command{
 	Short:   "Delete an instance",
 	Args:    cobra.ExactArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
-		return instanceUsecase.Delete(cmd.Context(), args[0])
+		return instanceUseCase.Delete(cmd.Context(), args[0])
 	},
 }
 
@@ -26,7 +26,7 @@ var deleteFirewallCmd = &cobra.Command{
 	Short:   "Delete a firewall",
 	Args:    cobra.ExactArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
-		return firewallUsecase.Delete(cmd.Context(), args[0])
+		return firewallUseCase.Delete(cmd.Context(), args[0])
 	},
 }
 

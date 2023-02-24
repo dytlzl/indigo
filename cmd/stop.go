@@ -15,12 +15,12 @@ var stopCmd = &cobra.Command{
 			return err
 		}
 		if force {
-			err = instanceUsecase.ForceStop(cmd.Context(), args[0])
+			err = instanceUseCase.ForceStop(cmd.Context(), args[0])
 			if err != nil {
 				return err
 			}
 		} else {
-			err = instanceUsecase.Stop(cmd.Context(), args[0])
+			err = instanceUseCase.Stop(cmd.Context(), args[0])
 			if err != nil {
 				return err
 			}

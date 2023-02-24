@@ -34,13 +34,13 @@ func Execute() {
 	}
 }
 
-var configFile string
+var (
+	configFile string
+	conf       config.Config
 
-var conf config.Config
-
-var instanceUsecase usecase.InstanceUsecase
-
-var firewallUsecase usecase.FirewallUsecase
+	instanceUseCase usecase.InstanceUseCase
+	firewallUseCase usecase.FirewallUseCase
+)
 
 func init() {
 	u, err := user.Current()
@@ -56,7 +56,7 @@ func init() {
 		}
 		ir := repository.NewAPIInstanceRepository(client)
 		fr := repository.NewAPIFirewallRepository(client)
-		instanceUsecase = usecase.NewInstanceUsecase(ir)
-		firewallUsecase = usecase.NewFirewallUsecase(fr, ir)
+		instanceUseCase = usecase.NewInstanceUseCase(ir)
+		firewallUseCase = usecase.NewFirewallUseCase(fr, ir)
 	})
 }

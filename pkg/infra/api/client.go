@@ -22,7 +22,7 @@ type Client struct {
 
 // AuthStruct -
 type AuthStruct struct {
-	ClientId     string `json:"clientId"`
+	ClientID     string `json:"clientID"`
 	ClientSecret string `json:"clientSecret"`
 	Code         string `json:"code"`
 	GrantType    string `json:"grantType"`
@@ -58,7 +58,7 @@ func (c *Client) GenerateAccessToken() (*string, error) {
 		return nil, fmt.Errorf("define api key and api secret")
 	}
 	auth := AuthStruct{
-		ClientId:     apiKey,
+		ClientID:     apiKey,
 		ClientSecret: apiSecret,
 		GrantType:    "client_credentials",
 		Code:         "",

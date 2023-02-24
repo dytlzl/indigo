@@ -32,7 +32,7 @@ var createInstanceCmd = &cobra.Command{
 		if err != nil {
 			return err
 		}
-		return instanceUsecase.Create(cmd.Context(), args[0], planID, osID, regionID, sshKeyID)
+		return instanceUseCase.Create(cmd.Context(), args[0], planID, osID, regionID, sshKeyID)
 	},
 }
 

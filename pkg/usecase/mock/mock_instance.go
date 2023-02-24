@@ -78,31 +78,31 @@ func (mr *MockInstanceRepositoryMockRecorder) UpdateStatus(ctx, id, status inter
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateStatus", reflect.TypeOf((*MockInstanceRepository)(nil).UpdateStatus), ctx, id, status)
 }
 
-// MockInstanceUsecase is a mock of InstanceUsecase interface.
-type MockInstanceUsecase struct {
+// MockInstanceUseCase is a mock of InstanceUseCase interface.
+type MockInstanceUseCase struct {
 	ctrl     *gomock.Controller
-	recorder *MockInstanceUsecaseMockRecorder
+	recorder *MockInstanceUseCaseMockRecorder
 }
 
-// MockInstanceUsecaseMockRecorder is the mock recorder for MockInstanceUsecase.
-type MockInstanceUsecaseMockRecorder struct {
-	mock *MockInstanceUsecase
+// MockInstanceUseCaseMockRecorder is the mock recorder for MockInstanceUseCase.
+type MockInstanceUseCaseMockRecorder struct {
+	mock *MockInstanceUseCase
 }
 
-// NewMockInstanceUsecase creates a new mock instance.
-func NewMockInstanceUsecase(ctrl *gomock.Controller) *MockInstanceUsecase {
-	mock := &MockInstanceUsecase{ctrl: ctrl}
-	mock.recorder = &MockInstanceUsecaseMockRecorder{mock}
+// NewMockInstanceUseCase creates a new mock instance.
+func NewMockInstanceUseCase(ctrl *gomock.Controller) *MockInstanceUseCase {
+	mock := &MockInstanceUseCase{ctrl: ctrl}
+	mock.recorder = &MockInstanceUseCaseMockRecorder{mock}
 	return mock
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockInstanceUsecase) EXPECT() *MockInstanceUsecaseMockRecorder {
+func (m *MockInstanceUseCase) EXPECT() *MockInstanceUseCaseMockRecorder {
 	return m.recorder
 }
 
 // Create mocks base method.
-func (m *MockInstanceUsecase) Create(ctx context.Context, name string, planID, osID, regionID, sshKeyID int) error {
+func (m *MockInstanceUseCase) Create(ctx context.Context, name string, planID, osID, regionID, sshKeyID int) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Create", ctx, name, planID, osID, regionID, sshKeyID)
 	ret0, _ := ret[0].(error)
@@ -110,13 +110,13 @@ func (m *MockInstanceUsecase) Create(ctx context.Context, name string, planID, o
 }
 
 // Create indicates an expected call of Create.
-func (mr *MockInstanceUsecaseMockRecorder) Create(ctx, name, planID, osID, regionID, sshKeyID interface{}) *gomock.Call {
+func (mr *MockInstanceUseCaseMockRecorder) Create(ctx, name, planID, osID, regionID, sshKeyID interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockInstanceUsecase)(nil).Create), ctx, name, planID, osID, regionID, sshKeyID)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockInstanceUseCase)(nil).Create), ctx, name, planID, osID, regionID, sshKeyID)
 }
 
 // Delete mocks base method.
-func (m *MockInstanceUsecase) Delete(ctx context.Context, name string) error {
+func (m *MockInstanceUseCase) Delete(ctx context.Context, name string) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Delete", ctx, name)
 	ret0, _ := ret[0].(error)
@@ -124,13 +124,13 @@ func (m *MockInstanceUsecase) Delete(ctx context.Context, name string) error {
 }
 
 // Delete indicates an expected call of Delete.
-func (mr *MockInstanceUsecaseMockRecorder) Delete(ctx, name interface{}) *gomock.Call {
+func (mr *MockInstanceUseCaseMockRecorder) Delete(ctx, name interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockInstanceUsecase)(nil).Delete), ctx, name)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockInstanceUseCase)(nil).Delete), ctx, name)
 }
 
 // ForceStop mocks base method.
-func (m *MockInstanceUsecase) ForceStop(ctx context.Context, name string) error {
+func (m *MockInstanceUseCase) ForceStop(ctx context.Context, name string) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ForceStop", ctx, name)
 	ret0, _ := ret[0].(error)
@@ -138,13 +138,13 @@ func (m *MockInstanceUsecase) ForceStop(ctx context.Context, name string) error 
 }
 
 // ForceStop indicates an expected call of ForceStop.
-func (mr *MockInstanceUsecaseMockRecorder) ForceStop(ctx, name interface{}) *gomock.Call {
+func (mr *MockInstanceUseCaseMockRecorder) ForceStop(ctx, name interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ForceStop", reflect.TypeOf((*MockInstanceUsecase)(nil).ForceStop), ctx, name)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ForceStop", reflect.TypeOf((*MockInstanceUseCase)(nil).ForceStop), ctx, name)
 }
 
 // List mocks base method.
-func (m *MockInstanceUsecase) List(ctx context.Context) error {
+func (m *MockInstanceUseCase) List(ctx context.Context) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "List", ctx)
 	ret0, _ := ret[0].(error)
@@ -152,13 +152,13 @@ func (m *MockInstanceUsecase) List(ctx context.Context) error {
 }
 
 // List indicates an expected call of List.
-func (mr *MockInstanceUsecaseMockRecorder) List(ctx interface{}) *gomock.Call {
+func (mr *MockInstanceUseCaseMockRecorder) List(ctx interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*MockInstanceUsecase)(nil).List), ctx)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*MockInstanceUseCase)(nil).List), ctx)
 }
 
 // Start mocks base method.
-func (m *MockInstanceUsecase) Start(ctx context.Context, name string) error {
+func (m *MockInstanceUseCase) Start(ctx context.Context, name string) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Start", ctx, name)
 	ret0, _ := ret[0].(error)
@@ -166,13 +166,13 @@ func (m *MockInstanceUsecase) Start(ctx context.Context, name string) error {
 }
 
 // Start indicates an expected call of Start.
-func (mr *MockInstanceUsecaseMockRecorder) Start(ctx, name interface{}) *gomock.Call {
+func (mr *MockInstanceUseCaseMockRecorder) Start(ctx, name interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Start", reflect.TypeOf((*MockInstanceUsecase)(nil).Start), ctx, name)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Start", reflect.TypeOf((*MockInstanceUseCase)(nil).Start), ctx, name)
 }
 
 // Stop mocks base method.
-func (m *MockInstanceUsecase) Stop(ctx context.Context, name string) error {
+func (m *MockInstanceUseCase) Stop(ctx context.Context, name string) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Stop", ctx, name)
 	ret0, _ := ret[0].(error)
@@ -180,7 +180,7 @@ func (m *MockInstanceUsecase) Stop(ctx context.Context, name string) error {
 }
 
 // Stop indicates an expected call of Stop.
-func (mr *MockInstanceUsecaseMockRecorder) Stop(ctx, name interface{}) *gomock.Call {
+func (mr *MockInstanceUseCaseMockRecorder) Stop(ctx, name interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Stop", reflect.TypeOf((*MockInstanceUsecase)(nil).Stop), ctx, name)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Stop", reflect.TypeOf((*MockInstanceUseCase)(nil).Stop), ctx, name)
 }
