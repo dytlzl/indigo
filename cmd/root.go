@@ -10,7 +10,7 @@ import (
 
 	"github.com/dytlzl/indigo/pkg/config"
 	"github.com/dytlzl/indigo/pkg/infra/api"
-	"github.com/dytlzl/indigo/pkg/repository"
+	"github.com/dytlzl/indigo/pkg/infra/repository"
 	"github.com/dytlzl/indigo/pkg/usecase"
 
 	"github.com/spf13/cobra"
@@ -42,6 +42,7 @@ var (
 	instanceUseCase usecase.InstanceUseCase
 	firewallUseCase usecase.FirewallUseCase
 	osUseCase       usecase.OSUseCase
+	sshKeyUseCase   usecase.SSHKeyUseCase
 	planUseCase     usecase.PlanUseCase
 )
 
@@ -61,9 +62,11 @@ func init() {
 		fr := repository.NewAPIFirewallRepository(client)
 		or := repository.NewAPIOSRepository(client)
 		pr := repository.NewJSONPlanRepository()
+		sr := repository.NewAPISSHKeyRepository(client)
 		instanceUseCase = usecase.NewInstanceUseCase(ir)
 		firewallUseCase = usecase.NewFirewallUseCase(fr, ir)
 		osUseCase = usecase.NewOSUseCase(or)
+		sshKeyUseCase = usecase.NewSSHKeyUseCase(sr)
 		planUseCase = usecase.NewPlanUseCase(pr)
 	})
 	rootCmd.AddCommand(

@@ -28,3 +28,9 @@ type Plan struct {
 	SSD     int
 	Network string
 }
+
+type SSHKey struct {
+	ID     int
+	Name   string
+	Status string
+}

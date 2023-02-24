@@ -28,6 +28,15 @@ var getOSCmd = &cobra.Command{
 	},
 }
 
+var getSSHKeyCmd = &cobra.Command{
+	Use:     "sshkey",
+	Aliases: []string{"sk", "sshkeys"},
+	Short:   "Get SSH Key(s)",
+	RunE: func(cmd *cobra.Command, args []string) error {
+		return sshKeyUseCase.List(cmd.Context())
+	},
+}
+
 var getPlanCmd = &cobra.Command{
 	Use:     "plan",
 	Aliases: []string{"plans"},
@@ -63,6 +72,7 @@ func init() {
 		getInstanceCmd,
 		getFirewallCmd,
 		getOSCmd,
+		getSSHKeyCmd,
 		getPlanCmd,
 	)
 }
