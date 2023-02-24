@@ -10,17 +10,13 @@ var stopCmd = &cobra.Command{
 	Short: "Stop an instance",
 	Args:  cobra.ExactArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
-		force, err := cmd.PersistentFlags().GetBool("force")
-		if err != nil {
-			return err
-		}
-		if force {
-			err = instanceUseCase.ForceStop(cmd.Context(), args[0])
+		if *force {
+			err := instanceUseCase.ForceStop(cmd.Context(), args[0])
 			if err != nil {
 				return err
 			}
 		} else {
-			err = instanceUseCase.Stop(cmd.Context(), args[0])
+			err := instanceUseCase.Stop(cmd.Context(), args[0])
 			if err != nil {
 				return err
 			}
@@ -29,7 +25,8 @@ var stopCmd = &cobra.Command{
 	},
 }
 
+var force *bool
+
 func init() {
-	stopCmd.PersistentFlags().BoolP("force", "f", false, "indigo stop node00 --force")
-	rootCmd.AddCommand(stopCmd)
+	force = stopCmd.Flags().BoolP("force", "f", false, "indigo stop node00 --force")
 }

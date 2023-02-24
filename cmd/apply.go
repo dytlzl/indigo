@@ -13,11 +13,7 @@ var applyCmd = &cobra.Command{
 	Use:   "apply",
 	Short: "Apply a manifest file",
 	RunE: func(cmd *cobra.Command, args []string) error {
-		filename, err := cmd.Flags().GetString("filename")
-		if err != nil {
-			return err
-		}
-		fileBody, err := os.ReadFile(filename)
+		fileBody, err := os.ReadFile(*filename)
 		if err != nil {
 			return err
 		}
@@ -43,8 +39,11 @@ type ManifestFile struct {
 	Kind string `yaml:"kind"`
 }
 
+var (
+	filename *string
+)
+
 func init() {
-	applyCmd.Flags().StringP("filename", "f", "[]", "indigo -f instance.yaml")
+	filename = applyCmd.Flags().StringP("filename", "f", "[]", "indigo -f instance.yaml")
 	applyCmd.MarkFlagRequired("filename")
-	rootCmd.AddCommand(applyCmd)
 }

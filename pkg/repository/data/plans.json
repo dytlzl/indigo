@@ -1,0 +1,119 @@
+[
+    {
+        "id": 13,
+        "code": "1vCPU768MB20GB",
+        "ipType": "ipv6",
+        "vCpu": 1,
+        "ram": 768,
+        "ssd": 20,
+        "network": "100 Mbps"
+    },
+    {
+        "id": 7,
+        "code": "2vCPU1GB50GB",
+        "ipType": "ipv4",
+        "vCpu": 2,
+        "ram": 1024,
+        "ssd": 50,
+        "network": "100 Mbps"
+    },
+    {
+        "id": 8,
+        "code": "3vCPU2GB100GB",
+        "ipType": "ipv4",
+        "vCpu": 3,
+        "ram": 2048,
+        "ssd": 100,
+        "network": "100 Mbps"
+    },
+    {
+        "id": 9,
+        "code": "4vCPU4GB200GB",
+        "ipType": "ipv4",
+        "vCpu": 4,
+        "ram": 4096,
+        "ssd": 200,
+        "network": "500 Mbps"
+    },
+    {
+        "id": 10,
+        "code": "6vCPU8GB400GB",
+        "ipType": "ipv4",
+        "vCpu": 6,
+        "ram": 8192,
+        "ssd": 400,
+        "network": "1000 Mbps"
+    },
+    {
+        "id": 11,
+        "code": "8vCPU16GB800GB",
+        "ipType": "ipv4",
+        "vCpu": 8,
+        "ram": 16384,
+        "ssd": 800,
+        "network": "1000 Mbps"
+    },
+    {
+        "id": 12,
+        "code": "10vCPU32GB1600GB",
+        "ipType": "ipv4",
+        "vCpu": 10,
+        "ram": 32768,
+        "ssd": 1600,
+        "network": "1000 Mbps"
+    },
+    {
+        "id": 1,
+        "code": "1vCPU1GB20GB",
+        "ipType": "ipv46dual",
+        "vCpu": 1,
+        "ram": 1024,
+        "ssd": 20,
+        "network": "100 Mbps"
+    },
+    {
+        "id": 2,
+        "code": "2vCPU2GB40GB",
+        "ipType": "ipv46dual",
+        "vCpu": 2,
+        "ram": 2048,
+        "ssd": 40,
+        "network": "100 Mbps"
+    },
+    {
+        "id": 3,
+        "code": "4vCPU4GB80GB",
+        "ipType": "ipv46dual",
+        "vCpu": 4,
+        "ram": 4096,
+        "ssd": 80,
+        "network": "500 Mbps"
+    },
+    {
+        "id": 4,
+        "code": "6vCPU8GB160GB",
+        "ipType": "ipv46dual",
+        "vCpu": 6,
+        "ram": 8192,
+        "ssd": 160,
+        "network": "1000 Mbps"
+    },
+    {
+        "id": 5,
+        "code": "6vCPU16GB320GB",
+        "ipType": "ipv46dual",
+        "vCpu": 6,
+        "ram": 16384,
+        "ssd": 320,
+        "network": "1000 Mbps"
+    },
+    {
+        "id": 6,
+        "code": "8vCPU32GB640GB",
+        "ipType": "ipv46dual",
+        "vCpu": 8,
+        "ram": 32768,
+        "ssd": 640,
+        "network": "1000 Mbps"
+    }
+]

@@ -70,10 +70,10 @@ type instanceListResponse struct {
 }
 
 type apiInstanceRepository struct {
-	Client *api.Client
+	Client api.Client
 }
 
-func NewAPIInstanceRepository(client *api.Client) usecase.InstanceRepository {
+func NewAPIInstanceRepository(client api.Client) usecase.InstanceRepository {
 	return &apiInstanceRepository{Client: client}
 }
 
@@ -103,7 +103,7 @@ func (a *apiInstanceRepository) List(ctx context.Context) ([]domain.Instance, er
 }
 
 type instanceStatusUpdateRequest struct {
-	InstanceID string `json:"instanceID"`
+	InstanceID string `json:"instanceId"`
 	Status     string `json:"status"`
 }
 
@@ -127,9 +127,9 @@ func (a *apiInstanceRepository) UpdateStatus(ctx context.Context, id int, status
 type instanceCreateRequest struct {
 	InstanceName string `json:"instanceName"`
 	InstancePlan int    `json:"instancePlan"`
-	OSID         int    `json:"osID"`
-	RegionID     int    `json:"regionID"`
-	SSHKeyID     int    `json:"sshKeyID"`
+	OSID         int    `json:"osId"`
+	RegionID     int    `json:"regionId"`
+	SSHKeyID     int    `json:"sshKeyId"`
 }
 
 func (a *apiInstanceRepository) Create(ctx context.Context, name string, planID int, osID int, regionID int, sshKeyID int) error {

@@ -19,7 +19,3 @@ var versionCmd = &cobra.Command{
 		fmt.Printf("Client Version: %s, Commit: %s\n", Version, Revision)
 	},
 }
-
-func init() {
-	rootCmd.AddCommand(versionCmd)
-}

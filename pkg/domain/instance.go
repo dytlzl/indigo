@@ -13,3 +13,18 @@ type Instance struct {
 	StartedAt time.Time
 	PlanName  string
 }
+
+type OS struct {
+	ID   int
+	Name string
+}
+
+type Plan struct {
+	ID      int
+	Code    string
+	IPType  string
+	VCPU    int
+	RAM     int
+	SSD     int
+	Network string
+}

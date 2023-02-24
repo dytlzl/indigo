@@ -19,6 +19,24 @@ var getInstanceCmd = &cobra.Command{
 	},
 }
 
+var getOSCmd = &cobra.Command{
+	Use:     "os",
+	Aliases: []string{"oses"},
+	Short:   "Get OS(es)",
+	RunE: func(cmd *cobra.Command, args []string) error {
+		return osUseCase.List(cmd.Context())
+	},
+}
+
+var getPlanCmd = &cobra.Command{
+	Use:     "plan",
+	Aliases: []string{"plans"},
+	Short:   "Get plan(s)",
+	RunE: func(cmd *cobra.Command, args []string) error {
+		return planUseCase.List(cmd.Context())
+	},
+}
+
 // getFirewallCmd represents the firewall command
 var getFirewallCmd = &cobra.Command{
 	Use:     "firewall",
@@ -41,7 +59,10 @@ var getFirewallCmd = &cobra.Command{
 }
 
 func init() {
-	getCmd.AddCommand(getInstanceCmd)
-	getCmd.AddCommand(getFirewallCmd)
-	rootCmd.AddCommand(getCmd)
+	getCmd.AddCommand(
+		getInstanceCmd,
+		getFirewallCmd,
+		getOSCmd,
+		getPlanCmd,
+	)
 }

@@ -38,8 +38,11 @@ var (
 	configFile string
 	conf       config.Config
 
+	client          api.Client
 	instanceUseCase usecase.InstanceUseCase
 	firewallUseCase usecase.FirewallUseCase
+	osUseCase       usecase.OSUseCase
+	planUseCase     usecase.PlanUseCase
 )
 
 func init() {
@@ -50,13 +53,27 @@ func init() {
 	rootCmd.PersistentFlags().StringVar(&configFile, "config", filepath.Join(u.HomeDir, ".indigo.yaml"), "config file (default is $HOME/.indigo.yaml)")
 	cobra.OnInitialize(func() {
 		conf = config.NewConfig(configFile)
-		client, err := api.NewClient(conf)
+		client, err = api.NewClient(conf)
 		if err != nil {
 			log.Fatalln(err)
 		}
 		ir := repository.NewAPIInstanceRepository(client)
 		fr := repository.NewAPIFirewallRepository(client)
+		or := repository.NewAPIOSRepository(client)
+		pr := repository.NewJSONPlanRepository()
 		instanceUseCase = usecase.NewInstanceUseCase(ir)
 		firewallUseCase = usecase.NewFirewallUseCase(fr, ir)
+		osUseCase = usecase.NewOSUseCase(or)
+		planUseCase = usecase.NewPlanUseCase(pr)
 	})
+	rootCmd.AddCommand(
+		applyCmd,
+		createCmd,
+		deleteCmd,
+		getCmd,
+		startCmd,
+		stopCmd,
+		versionCmd,
+		debugCmd,
+	)
 }

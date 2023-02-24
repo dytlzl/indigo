@@ -14,7 +14,7 @@ import (
 )
 
 type apiFirewallRepository struct {
-	Client *api.Client
+	Client api.Client
 }
 
 type firewallListResponse struct {
@@ -27,7 +27,7 @@ type firewallListResponse struct {
 	UserID    int    `json:"user_id"`
 }
 
-func NewAPIFirewallRepository(client *api.Client) usecase.FirewallRepository {
+func NewAPIFirewallRepository(client api.Client) usecase.FirewallRepository {
 	return &apiFirewallRepository{Client: client}
 }
 

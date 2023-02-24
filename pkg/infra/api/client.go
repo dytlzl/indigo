@@ -14,15 +14,23 @@ import (
 	"github.com/dytlzl/indigo/pkg/config"
 )
 
+type Client interface {
+	GenerateAccessToken() (*string, error)
+	Get(ctx context.Context, endpoint string) ([]byte, error)
+	Post(ctx context.Context, endpoint string, body io.Reader) ([]byte, error)
+	Put(ctx context.Context, endpoint string, body io.Reader) ([]byte, error)
+	Delete(ctx context.Context, endpoint string) ([]byte, error)
+}
+
 // Client -
-type Client struct {
+type client struct {
 	conf       config.Config
 	HTTPClient *http.Client
 }
 
 // AuthStruct -
 type AuthStruct struct {
-	ClientID     string `json:"clientID"`
+	ClientID     string `json:"clientId"`
 	ClientSecret string `json:"clientSecret"`
 	Code         string `json:"code"`
 	GrantType    string `json:"grantType"`
@@ -34,8 +42,8 @@ type AuthResponse struct {
 }
 
 // NewClient -
-func NewClient(conf config.Config) (*Client, error) {
-	c := Client{
+func NewClient(conf config.Config) (Client, error) {
+	c := client{
 		HTTPClient: &http.Client{Timeout: 30 * time.Second},
 		conf:       conf,
 	}
@@ -49,7 +57,7 @@ func NewClient(conf config.Config) (*Client, error) {
 	return &c, nil
 }
 
-func (c *Client) GenerateAccessToken() (*string, error) {
+func (c *client) GenerateAccessToken() (*string, error) {
 	log.Println("logging in...")
 	time.Sleep(time.Second)
 	apiKey, apiSecret := c.conf.GetCredential()
@@ -87,7 +95,7 @@ func (c *Client) GenerateAccessToken() (*string, error) {
 	return &ar.AccessToken, nil
 }
 
-func (c *Client) doSignInRequest(req *http.Request) ([]byte, error) {
+func (c *client) doSignInRequest(req *http.Request) ([]byte, error) {
 	req.Header.Add("Content-Type", "application/json")
 
 	res, err := c.HTTPClient.Do(req)
@@ -108,23 +116,23 @@ func (c *Client) doSignInRequest(req *http.Request) ([]byte, error) {
 	return body, err
 }
 
-func (c *Client) Get(ctx context.Context, endpoint string) ([]byte, error) {
+func (c *client) Get(ctx context.Context, endpoint string) ([]byte, error) {
 	return c.doRequestWithRetry(ctx, "GET", endpoint, nil)
 }
 
-func (c *Client) Post(ctx context.Context, endpoint string, body io.Reader) ([]byte, error) {
+func (c *client) Post(ctx context.Context, endpoint string, body io.Reader) ([]byte, error) {
 	return c.doRequestWithRetry(ctx, "POST", endpoint, body)
 }
 
-func (c *Client) Put(ctx context.Context, endpoint string, body io.Reader) ([]byte, error) {
+func (c *client) Put(ctx context.Context, endpoint string, body io.Reader) ([]byte, error) {
 	return c.doRequestWithRetry(ctx, "PUT", endpoint, body)
 }
 
-func (c *Client) Delete(ctx context.Context, endpoint string) ([]byte, error) {
+func (c *client) Delete(ctx context.Context, endpoint string) ([]byte, error) {
 	return c.doRequestWithRetry(ctx, "DELETE", endpoint, nil)
 }
 
-func (c *Client) doRequestWithRetry(ctx context.Context, method, endpoint string, reqBody io.Reader) ([]byte, error) {
+func (c *client) doRequestWithRetry(ctx context.Context, method, endpoint string, reqBody io.Reader) ([]byte, error) {
 	res, resBody, err := c.doRequest(ctx, method, endpoint, reqBody)
 	if err != nil {
 		return nil, err
@@ -148,7 +156,7 @@ func (c *Client) doRequestWithRetry(ctx context.Context, method, endpoint string
 	return resBody, err
 }
 
-func (c *Client) doRequest(ctx context.Context, method, endpoint string, reqBody io.Reader) (*http.Response, []byte, error) {
+func (c *client) doRequest(ctx context.Context, method, endpoint string, reqBody io.Reader) (*http.Response, []byte, error) {
 	time.Sleep(2 * time.Second)
 	req, err := http.NewRequestWithContext(ctx, method, fmt.Sprintf("%s%s", "https://api.customer.jp/webarenaIndigo/v1", endpoint), reqBody)
 	if err != nil {

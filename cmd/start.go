@@ -13,7 +13,3 @@ var startCmd = &cobra.Command{
 		return instanceUseCase.Start(cmd.Context(), args[0])
 	},
 }
-
-func init() {
-	rootCmd.AddCommand(startCmd)
-}
