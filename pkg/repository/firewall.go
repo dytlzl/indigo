@@ -108,7 +108,7 @@ func (a *apiFirewallRepository) Update(ctx context.Context, fw *domain.Firewall)
 	if err != nil {
 		return err
 	}
-	resBody, err := a.Client.Put(ctx, fmt.Sprintf("/nw/updatefirewall"), bytes.NewBuffer(reqBody))
+	resBody, err := a.Client.Put(ctx, "/nw/updatefirewall", bytes.NewBuffer(reqBody))
 	if err != nil {
 		return err
 	}
@@ -127,7 +127,7 @@ func (a *apiFirewallRepository) Create(ctx context.Context, fw *domain.Firewall)
 	if err != nil {
 		return err
 	}
-	resBody, err := a.Client.Post(ctx, fmt.Sprintf("/nw/createfirewall"), bytes.NewBuffer(reqBody))
+	resBody, err := a.Client.Post(ctx, "/nw/createfirewall", bytes.NewBuffer(reqBody))
 	if err != nil {
 		return err
 	}

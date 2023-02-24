@@ -14,6 +14,8 @@ import (
 	"k8s.io/apimachinery/pkg/util/duration"
 )
 
+//go:generate go run github.com/golang/mock/mockgen -source=$GOFILE -destination=./mock/mock_$GOFILE -package=mock_$GOPACKAGE
+
 type FirewallRepository interface {
 	List(ctx context.Context) ([]domain.Firewall, error)
 	Get(ctx context.Context, id int) (*domain.Firewall, error)
@@ -91,7 +93,7 @@ func (u *firewallUsecase) Get(ctx context.Context, target string) error {
 			return nil
 		}
 	}
-	return fmt.Errorf("firewall \"%s\" not found\n", target)
+	return fmt.Errorf("firewall \"%s\" not found", target)
 }
 
 func (u *firewallUsecase) Apply(ctx context.Context, fileBody []byte) error {
@@ -187,5 +189,5 @@ func (u *firewallUsecase) Delete(ctx context.Context, target string) error {
 			return nil
 		}
 	}
-	return fmt.Errorf("firewall \"%s\" not found\n", target)
+	return fmt.Errorf("firewall \"%s\" not found", target)
 }

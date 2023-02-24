@@ -12,6 +12,8 @@ import (
 	"k8s.io/apimachinery/pkg/util/duration"
 )
 
+//go:generate go run github.com/golang/mock/mockgen -source=$GOFILE -destination=./mock/mock_$GOFILE -package=mock_$GOPACKAGE
+
 type InstanceRepository interface {
 	List(ctx context.Context) ([]domain.Instance, error)
 	Create(ctx context.Context, name string, planID int, osID int, regionID int, sshKeyID int) error
@@ -124,7 +126,7 @@ func (u *instanceUsecase) getIDFromName(ctx context.Context, name string) (int, 
 		return nil
 	}()
 	if id == nil {
-		return 0, fmt.Errorf("instance \"%s\" not found\n", name)
+		return 0, fmt.Errorf("instance \"%s\" not found", name)
 	}
 	return *id, nil
 }

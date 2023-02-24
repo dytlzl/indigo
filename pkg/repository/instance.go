@@ -113,6 +113,9 @@ func (a *apiInstanceRepository) UpdateStatus(ctx context.Context, id int, status
 		Status:     status,
 	}
 	reqBody, err := json.Marshal(reqStruct)
+	if err != nil {
+		return err
+	}
 	resBody, err := a.Client.Post(ctx, "/vm/instance/statusupdate", bytes.NewBuffer(reqBody))
 	log.Println(string(resBody))
 	if err != nil {

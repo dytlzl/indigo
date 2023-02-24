@@ -137,6 +137,9 @@ func (c *Client) doRequestWithRetry(ctx context.Context, method, endpoint string
 		}
 		c.conf.SetToken(*token)
 		res, resBody, err = c.doRequest(ctx, method, endpoint, reqBody)
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	if !(res.StatusCode == http.StatusOK || res.StatusCode == http.StatusCreated) {
