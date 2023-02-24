@@ -10,6 +10,7 @@ import (
 
 	"github.com/dytlzl/indigo/pkg/domain"
 	"github.com/dytlzl/indigo/pkg/infra/api"
+	"github.com/dytlzl/indigo/pkg/usecase"
 )
 
 type apiFirewallRepository struct {
@@ -26,7 +27,7 @@ type firewallListResponse struct {
 	UserId    int    `json:"user_id"`
 }
 
-func NewAPIFirewallRepository(client *api.Client) domain.FirewallRepository {
+func NewAPIFirewallRepository(client *api.Client) usecase.FirewallRepository {
 	return &apiFirewallRepository{Client: client}
 }
 

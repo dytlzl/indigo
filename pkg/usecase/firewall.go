@@ -14,12 +14,27 @@ import (
 	"k8s.io/apimachinery/pkg/util/duration"
 )
 
-type firewallUsecase struct {
-	firewallRepository domain.FirewallRepository
-	instanceRepository domain.InstanceRepository
+type FirewallRepository interface {
+	List(ctx context.Context) ([]domain.Firewall, error)
+	Get(ctx context.Context, id int) (*domain.Firewall, error)
+	Create(ctx context.Context, fw *domain.Firewall) error
+	Update(ctx context.Context, fw *domain.Firewall) error
+	Delete(ctx context.Context, id int) error
 }
 
-func NewFirewallUsecase(fr domain.FirewallRepository, ir domain.InstanceRepository) domain.FirewallUsecase {
+type FirewallUsecase interface {
+	List(ctx context.Context) error
+	Get(ctx context.Context, target string) error
+	Apply(ctx context.Context, fileBody []byte) error
+	Delete(ctx context.Context, target string) error
+}
+
+type firewallUsecase struct {
+	firewallRepository FirewallRepository
+	instanceRepository InstanceRepository
+}
+
+func NewFirewallUsecase(fr FirewallRepository, ir InstanceRepository) FirewallUsecase {
 	return &firewallUsecase{
 		firewallRepository: fr,
 		instanceRepository: ir,

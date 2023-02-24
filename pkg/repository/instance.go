@@ -10,6 +10,7 @@ import (
 
 	"github.com/dytlzl/indigo/pkg/domain"
 	"github.com/dytlzl/indigo/pkg/infra/api"
+	"github.com/dytlzl/indigo/pkg/usecase"
 )
 
 type instanceListResponse struct {
@@ -72,7 +73,7 @@ type apiInstanceRepository struct {
 	Client *api.Client
 }
 
-func NewAPIInstanceRepository(client *api.Client) domain.InstanceRepository {
+func NewAPIInstanceRepository(client *api.Client) usecase.InstanceRepository {
 	return &apiInstanceRepository{Client: client}
 }
 

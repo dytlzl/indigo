@@ -1,14 +1,6 @@
 package cmd
 
 import (
-	"context"
-	"log"
-	"time"
-
-	"github.com/dytlzl/indigo/pkg/infra/api"
-	"github.com/dytlzl/indigo/pkg/repository"
-	"github.com/dytlzl/indigo/pkg/usecase"
-
 	"github.com/spf13/cobra"
 )
 
@@ -23,35 +15,24 @@ var createInstanceCmd = &cobra.Command{
 	Aliases: []string{"i", "instances"},
 	Short:   "Create a instance",
 	Args:    cobra.ExactArgs(1),
-	Run: func(cmd *cobra.Command, args []string) {
-		ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
-		defer cancel()
-		client, err := api.NewClient(conf)
-		if err != nil {
-			log.Fatalln(err)
-		}
-		repo := repository.NewAPIInstanceRepository(client)
-		u := usecase.NewInstanceUsecase(repo)
+	RunE: func(cmd *cobra.Command, args []string) error {
 		planID, err := cmd.Flags().GetInt("plan-id")
 		if err != nil {
-			log.Fatalln(err)
+			return err
 		}
 		osID, err := cmd.Flags().GetInt("os-id")
 		if err != nil {
-			log.Fatalln(err)
+			return err
 		}
 		regionID, err := cmd.Flags().GetInt("region-id")
 		if err != nil {
-			log.Fatalln(err)
+			return err
 		}
 		sshKeyID, err := cmd.Flags().GetInt("ssh-key-id")
 		if err != nil {
-			log.Fatalln(err)
+			return err
 		}
-		err = u.Create(ctx, args[0], planID, osID, regionID, sshKeyID)
-		if err != nil {
-			log.Fatalln(err)
-		}
+		return instanceUsecase.Create(cmd.Context(), args[0], planID, osID, regionID, sshKeyID)
 	},
 }
 

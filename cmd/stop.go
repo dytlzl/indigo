@@ -1,14 +1,6 @@
 package cmd
 
 import (
-	"context"
-	"log"
-	"time"
-
-	"github.com/dytlzl/indigo/pkg/infra/api"
-	"github.com/dytlzl/indigo/pkg/repository"
-	"github.com/dytlzl/indigo/pkg/usecase"
-
 	"github.com/spf13/cobra"
 )
 
@@ -17,30 +9,23 @@ var stopCmd = &cobra.Command{
 	Use:   "stop [name]",
 	Short: "Stop an instance",
 	Args:  cobra.ExactArgs(1),
-	Run: func(cmd *cobra.Command, args []string) {
-		ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
-		defer cancel()
-		client, err := api.NewClient(conf)
-		if err != nil {
-			log.Fatalln(err)
-		}
-		repo := repository.NewAPIInstanceRepository(client)
-		u := usecase.NewInstanceUsecase(repo)
+	RunE: func(cmd *cobra.Command, args []string) error {
 		force, err := cmd.PersistentFlags().GetBool("force")
 		if err != nil {
-			log.Fatalln(err)
+			return err
 		}
 		if force {
-			err = u.ForceStop(ctx, args[0])
+			err = instanceUsecase.ForceStop(cmd.Context(), args[0])
 			if err != nil {
-				log.Fatalln(err)
+				return err
 			}
 		} else {
-			err = u.Stop(ctx, args[0])
+			err = instanceUsecase.Stop(cmd.Context(), args[0])
 			if err != nil {
-				log.Fatalln(err)
+				return err
 			}
 		}
+		return nil
 	},
 }
 

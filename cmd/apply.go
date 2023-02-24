@@ -1,14 +1,8 @@
 package cmd
 
 import (
-	"context"
-	"log"
+	"fmt"
 	"os"
-	"time"
-
-	"github.com/dytlzl/indigo/pkg/infra/api"
-	"github.com/dytlzl/indigo/pkg/repository"
-	"github.com/dytlzl/indigo/pkg/usecase"
 
 	"github.com/spf13/cobra"
 	"gopkg.in/yaml.v2"
@@ -18,36 +12,30 @@ import (
 var applyCmd = &cobra.Command{
 	Use:   "apply",
 	Short: "Apply a manifest file",
-	Run: func(cmd *cobra.Command, args []string) {
-		ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
-		defer cancel()
+	RunE: func(cmd *cobra.Command, args []string) error {
 		filename, err := cmd.Flags().GetString("filename")
 		if err != nil {
-			log.Fatalln(err)
+			return err
 		}
 		fileBody, err := os.ReadFile(filename)
 		if err != nil {
-			log.Fatalln(err)
+			return err
 		}
 		manifestFile := ManifestFile{}
 		err = yaml.Unmarshal(fileBody, &manifestFile)
 		if err != nil {
-			log.Fatalln(err)
-		}
-		client, err := api.NewClient(conf)
-		if err != nil {
-			log.Fatalln(err)
+			return err
 		}
 		switch manifestFile.Kind {
 		case "Firewall":
-			fr := repository.NewAPIFirewallRepository(client)
-			ir := repository.NewAPIInstanceRepository(client)
-			u := usecase.NewFirewallUsecase(fr, ir)
-			err = u.Apply(ctx, fileBody)
+			err = firewallUsecase.Apply(cmd.Context(), fileBody)
 			if err != nil {
-				log.Fatalln(err)
+				return err
 			}
+		default:
+			return fmt.Errorf("invalid kind was specified: %s", manifestFile.Kind)
 		}
+		return nil
 	},
 }
 

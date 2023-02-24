@@ -1,7 +1,6 @@
 package domain
 
 import (
-	"context"
 	"time"
 )
 
@@ -20,19 +19,4 @@ type Rule struct {
 	Protocol string `yaml:"protocol" json:"protocol"`
 	Port     string `yaml:"port" json:"port"`
 	Source   string `yaml:"source" json:"source"`
-}
-
-type FirewallRepository interface {
-	List(ctx context.Context) ([]Firewall, error)
-	Get(ctx context.Context, id int) (*Firewall, error)
-	Create(ctx context.Context, fw *Firewall) error
-	Update(ctx context.Context, fw *Firewall) error
-	Delete(ctx context.Context, id int) error
-}
-
-type FirewallUsecase interface {
-	List(ctx context.Context) error
-	Get(ctx context.Context, target string) error
-	Apply(ctx context.Context, fileBody []byte) error
-	Delete(ctx context.Context, target string) error
 }

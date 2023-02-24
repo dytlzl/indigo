@@ -12,11 +12,26 @@ import (
 	"k8s.io/apimachinery/pkg/util/duration"
 )
 
-type instanceUsecase struct {
-	instanceRepository domain.InstanceRepository
+type InstanceRepository interface {
+	List(ctx context.Context) ([]domain.Instance, error)
+	Create(ctx context.Context, name string, planID int, osID int, regionID int, sshKeyID int) error
+	UpdateStatus(ctx context.Context, id int, status string) error
 }
 
-func NewInstanceUsecase(i domain.InstanceRepository) domain.InstanceUsecase {
+type InstanceUsecase interface {
+	List(ctx context.Context) error
+	Create(ctx context.Context, name string, planID int, osID int, regionID int, sshKeyID int) error
+	Start(ctx context.Context, name string) error
+	Stop(ctx context.Context, name string) error
+	ForceStop(ctx context.Context, name string) error
+	Delete(ctx context.Context, name string) error
+}
+
+type instanceUsecase struct {
+	instanceRepository InstanceRepository
+}
+
+func NewInstanceUsecase(i InstanceRepository) InstanceUsecase {
 	return &instanceUsecase{
 		instanceRepository: i,
 	}

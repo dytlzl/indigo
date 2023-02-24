@@ -1,14 +1,6 @@
 package cmd
 
 import (
-	"context"
-	"log"
-	"time"
-
-	"github.com/dytlzl/indigo/pkg/infra/api"
-	"github.com/dytlzl/indigo/pkg/repository"
-	"github.com/dytlzl/indigo/pkg/usecase"
-
 	"github.com/spf13/cobra"
 )
 
@@ -22,19 +14,8 @@ var getInstanceCmd = &cobra.Command{
 	Use:     "instance",
 	Aliases: []string{"i", "instances"},
 	Short:   "Get instance(s)",
-	Run: func(cmd *cobra.Command, args []string) {
-		ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
-		defer cancel()
-		client, err := api.NewClient(conf)
-		if err != nil {
-			log.Fatalln(err)
-		}
-		repo := repository.NewAPIInstanceRepository(client)
-		u := usecase.NewInstanceUsecase(repo)
-		err = u.List(ctx)
-		if err != nil {
-			log.Fatalln(err)
-		}
+	RunE: func(cmd *cobra.Command, args []string) error {
+		return instanceUsecase.List(cmd.Context())
 	},
 }
 
@@ -43,26 +24,19 @@ var getFirewallCmd = &cobra.Command{
 	Use:     "firewall",
 	Aliases: []string{"fw", "firewalls"},
 	Short:   "Get firewall(s)",
-	Run: func(cmd *cobra.Command, args []string) {
-		ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
-		defer cancel()
-		client, err := api.NewClient(conf)
-		if err != nil {
-			log.Fatalln(err)
-		}
-		repo := repository.NewAPIFirewallRepository(client)
-		u := usecase.NewFirewallUsecase(repo, nil)
+	RunE: func(cmd *cobra.Command, args []string) error {
 		if len(args) != 0 {
-			err = u.Get(ctx, args[0])
+			err := firewallUsecase.Get(cmd.Context(), args[0])
 			if err != nil {
-				log.Fatalln(err)
+				return err
 			}
 		} else {
-			err = u.List(ctx)
+			err := firewallUsecase.List(cmd.Context())
 			if err != nil {
-				log.Fatalln(err)
+				return err
 			}
 		}
+		return nil
 	},
 }
 
