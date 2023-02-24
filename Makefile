@@ -10,4 +10,7 @@ mod:
 test:
 	go test ./...
 
-all: fmt lint test
+gen:
+	go generate ./...
+
+all: gen fmt lint test
