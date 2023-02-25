@@ -13,8 +13,9 @@ var (
 
 // versionCmd represents the version command
 var versionCmd = &cobra.Command{
-	Use:   "version",
-	Short: "Show version",
+	Use:    "version",
+	Short:  "Show version",
+	Hidden: true,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Printf("Client Version: %s, Commit: %s\n", Version, Revision)
 	},

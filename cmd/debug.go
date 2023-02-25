@@ -10,7 +10,8 @@ import (
 
 func NewDebugCmd(conf config.Config) *cobra.Command {
 	return &cobra.Command{
-		Use: "debug",
+		Use:    "debug",
+		Hidden: true,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			client := api.NewClient(conf)
 			b, err := client.Get(cmd.Context(), "/vm/sshkey")
