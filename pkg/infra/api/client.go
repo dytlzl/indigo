@@ -47,12 +47,15 @@ func NewClient(conf config.Config) (Client, error) {
 		HTTPClient: &http.Client{Timeout: 30 * time.Second},
 		conf:       conf,
 	}
-	if c.conf.GetToken() == "" {
+	if c.conf.Token() == "" {
 		token, err := c.GenerateAccessToken()
 		if err != nil {
 			return nil, err
 		}
-		c.conf.SetToken(*token)
+		err = c.conf.SetToken(*token)
+		if err != nil {
+			log.Println("failed to persist token")
+		}
 	}
 	return &c, nil
 }
@@ -143,7 +146,10 @@ func (c *client) doRequestWithRetry(ctx context.Context, method, endpoint string
 		if err != nil {
 			return nil, err
 		}
-		c.conf.SetToken(*token)
+		err = c.conf.SetToken(*token)
+		if err != nil {
+			log.Println("failed to persist token")
+		}
 		res, resBody, err = c.doRequest(ctx, method, endpoint, reqBody)
 		if err != nil {
 			return nil, err
@@ -162,7 +168,7 @@ func (c *client) doRequest(ctx context.Context, method, endpoint string, reqBody
 	if err != nil {
 		return nil, nil, err
 	}
-	req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", c.conf.GetToken()))
+	req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", c.conf.Token()))
 
 	res, err := c.HTTPClient.Do(req)
 	if err != nil {

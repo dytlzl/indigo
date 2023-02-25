@@ -1,5 +1,5 @@
-lint:
-	staticcheck ./...
+gen:
+	go generate ./...
 
 fmt:
 	goimports -w .
@@ -10,7 +10,7 @@ mod:
 test:
 	go test ./...
 
-gen:
-	go generate ./...
+lint:
+	golangci-lint run
 
 all: gen fmt lint test

@@ -16,28 +16,18 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// rootCmd represents the base command when called without any subcommands
-var rootCmd = &cobra.Command{
-	Use:   "indigo",
-	Short: "Indigo API client",
-	Long:  "indigo is a Indigo API client written in Go.",
-}
-
 // Execute adds all child commands to the root command and sets flags appropriately.
 // This is called by main.main(). It only needs to happen once to the rootCmd.
 func Execute() {
-	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
-	err := rootCmd.ExecuteContext(ctx)
+	err := NewRootCmd().ExecuteContext(ctx)
 	if err != nil {
 		os.Exit(1)
 	}
 }
 
 var (
-	configFile string
-	conf       config.Config
-
 	client          api.Client
 	instanceUseCase usecase.InstanceUseCase
 	firewallUseCase usecase.FirewallUseCase
@@ -46,14 +36,20 @@ var (
 	planUseCase     usecase.PlanUseCase
 )
 
-func init() {
+func NewRootCmd() *cobra.Command {
 	u, err := user.Current()
 	if err != nil {
 		log.Fatalln(err)
 	}
-	rootCmd.PersistentFlags().StringVar(&configFile, "config", filepath.Join(u.HomeDir, ".indigo.yaml"), "config file (default is $HOME/.indigo.yaml)")
+	cmd := &cobra.Command{
+		Use:   "indigo",
+		Short: "Indigo API client",
+		Long:  "indigo is a Indigo API client written in Go.",
+	}
+	var configFile string
+	cmd.PersistentFlags().StringVar(&configFile, "config", filepath.Join(u.HomeDir, ".indigo.yaml"), "config file (default is $HOME/.indigo.yaml)")
 	cobra.OnInitialize(func() {
-		conf = config.NewConfig(configFile)
+		conf := config.NewConfig(configFile)
 		client, err = api.NewClient(conf)
 		if err != nil {
 			log.Fatalln(err)
@@ -69,14 +65,15 @@ func init() {
 		sshKeyUseCase = usecase.NewSSHKeyUseCase(sr)
 		planUseCase = usecase.NewPlanUseCase(pr)
 	})
-	rootCmd.AddCommand(
-		applyCmd,
-		createCmd,
-		deleteCmd,
-		getCmd,
-		startCmd,
-		stopCmd,
+	cmd.AddCommand(
+		NewApplyCmd(),
+		NewCreatCmd(),
+		NewDeleteCmd(),
+		NewGetCmd(),
+		NewStartCmd(),
+		NewStopCmd(),
 		versionCmd,
 		debugCmd,
 	)
+	return cmd
 }

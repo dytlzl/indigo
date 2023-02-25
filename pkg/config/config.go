@@ -8,8 +8,8 @@ import (
 
 type Config interface {
 	GetCredential() (string, string)
-	SetToken(string)
-	GetToken() string
+	SetToken(string) error
+	Token() string
 }
 
 type viperConfig struct {
@@ -18,7 +18,6 @@ type viperConfig struct {
 		Secret string
 		Token  string
 	}
-	Token string
 }
 
 func NewConfig(configFile string) Config {
@@ -37,12 +36,12 @@ func (v *viperConfig) GetCredential() (string, string) {
 	return v.Credential.Key, v.Credential.Secret
 }
 
-func (v *viperConfig) GetToken() string {
-	return v.Token
+func (v *viperConfig) Token() string {
+	return v.Credential.Token
 }
 
-func (v *viperConfig) SetToken(token string) {
-	v.Token = token
-	viper.Set("token", token)
-	viper.WriteConfig()
+func (v *viperConfig) SetToken(token string) error {
+	v.Credential.Token = token
+	viper.Set("credential.token", token)
+	return viper.WriteConfig()
 }
