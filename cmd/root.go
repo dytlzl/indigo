@@ -21,7 +21,29 @@ import (
 func Execute() {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
-	err := NewRootCmd().ExecuteContext(ctx)
+	cmd := &cobra.Command{
+		Use:   "indigo",
+		Short: "Indigo API client",
+		Long:  "indigo is a Indigo API client written in Go.",
+	}
+	var configFilename string
+	u, err := user.Current()
+	if err != nil {
+		log.Fatalln(err)
+	}
+	cmd.PersistentFlags().StringVar(&configFilename, "config", filepath.Join(u.HomeDir, ".indigo.yaml"), "config file (default is $HOME/.indigo.yaml)")
+	cmd.AddCommand(
+		NewApplyCmd(),
+		NewCreatCmd(),
+		NewDeleteCmd(),
+		NewGetCmd(),
+		NewStartCmd(),
+		NewStopCmd(),
+		versionCmd,
+		debugCmd,
+	)
+	InitUseCases(configFilename)
+	err = cmd.ExecuteContext(ctx)
 	if err != nil {
 		os.Exit(1)
 	}
@@ -36,44 +58,20 @@ var (
 	planUseCase     usecase.PlanUseCase
 )
 
-func NewRootCmd() *cobra.Command {
-	u, err := user.Current()
+func InitUseCases(configFilename string) {
+	conf := config.NewConfig(configFilename)
+	client, err := api.NewClient(conf)
 	if err != nil {
 		log.Fatalln(err)
 	}
-	cmd := &cobra.Command{
-		Use:   "indigo",
-		Short: "Indigo API client",
-		Long:  "indigo is a Indigo API client written in Go.",
-	}
-	var configFile string
-	cmd.PersistentFlags().StringVar(&configFile, "config", filepath.Join(u.HomeDir, ".indigo.yaml"), "config file (default is $HOME/.indigo.yaml)")
-	cobra.OnInitialize(func() {
-		conf := config.NewConfig(configFile)
-		client, err = api.NewClient(conf)
-		if err != nil {
-			log.Fatalln(err)
-		}
-		ir := repository.NewAPIInstanceRepository(client)
-		fr := repository.NewAPIFirewallRepository(client)
-		or := repository.NewAPIOSRepository(client)
-		pr := repository.NewJSONPlanRepository()
-		sr := repository.NewAPISSHKeyRepository(client)
-		instanceUseCase = usecase.NewInstanceUseCase(ir)
-		firewallUseCase = usecase.NewFirewallUseCase(fr, ir)
-		osUseCase = usecase.NewOSUseCase(or)
-		sshKeyUseCase = usecase.NewSSHKeyUseCase(sr)
-		planUseCase = usecase.NewPlanUseCase(pr)
-	})
-	cmd.AddCommand(
-		NewApplyCmd(),
-		NewCreatCmd(),
-		NewDeleteCmd(),
-		NewGetCmd(),
-		NewStartCmd(),
-		NewStopCmd(),
-		versionCmd,
-		debugCmd,
-	)
-	return cmd
+	ir := repository.NewAPIInstanceRepository(client)
+	fr := repository.NewAPIFirewallRepository(client)
+	or := repository.NewAPIOSRepository(client)
+	pr := repository.NewJSONPlanRepository()
+	sr := repository.NewAPISSHKeyRepository(client)
+	instanceUseCase = usecase.NewInstanceUseCase(ir)
+	firewallUseCase = usecase.NewFirewallUseCase(fr, ir)
+	osUseCase = usecase.NewOSUseCase(or)
+	sshKeyUseCase = usecase.NewSSHKeyUseCase(sr)
+	planUseCase = usecase.NewPlanUseCase(pr)
 }
