@@ -1,9 +1,13 @@
 package main
 
 import (
+	"log"
+
 	"github.com/dytlzl/indigo/cmd"
 )
 
 func main() {
-	cmd.Execute()
+	if err := cmd.Execute(); err != nil {
+		log.Fatalln(err)
+	}
 }

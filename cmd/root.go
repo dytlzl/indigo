@@ -2,8 +2,6 @@ package cmd
 
 import (
 	"context"
-	"log"
-	"os"
 	"os/user"
 	"path/filepath"
 	"time"
@@ -18,7 +16,7 @@ import (
 
 // Execute adds all child commands to the root command and sets flags appropriately.
 // This is called by main.main(). It only needs to happen once to the rootCmd.
-func Execute() {
+func Execute() error {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 	cmd := &cobra.Command{
@@ -29,7 +27,7 @@ func Execute() {
 	var configFilename string
 	u, err := user.Current()
 	if err != nil {
-		log.Fatalln(err)
+		return err
 	}
 	cmd.PersistentFlags().StringVar(&configFilename, "config", filepath.Join(u.HomeDir, ".indigo.yaml"), "config file (default is $HOME/.indigo.yaml)")
 	cmd.AddCommand(
@@ -42,11 +40,15 @@ func Execute() {
 		versionCmd,
 		debugCmd,
 	)
-	InitUseCases(configFilename)
+	err = InitUseCases(configFilename)
+	if err != nil {
+		return err
+	}
 	err = cmd.ExecuteContext(ctx)
 	if err != nil {
-		os.Exit(1)
+		return err
 	}
+	return nil
 }
 
 var (
@@ -58,11 +60,11 @@ var (
 	planUseCase     usecase.PlanUseCase
 )
 
-func InitUseCases(configFilename string) {
+func InitUseCases(configFilename string) error {
 	conf := config.NewConfig(configFilename)
 	client, err := api.NewClient(conf)
 	if err != nil {
-		log.Fatalln(err)
+		return err
 	}
 	ir := repository.NewAPIInstanceRepository(client)
 	fr := repository.NewAPIFirewallRepository(client)
@@ -74,4 +76,5 @@ func InitUseCases(configFilename string) {
 	osUseCase = usecase.NewOSUseCase(or)
 	sshKeyUseCase = usecase.NewSSHKeyUseCase(sr)
 	planUseCase = usecase.NewPlanUseCase(pr)
+	return nil
 }
