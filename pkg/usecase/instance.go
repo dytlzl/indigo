@@ -117,16 +117,10 @@ func (u *instanceUseCase) getIDFromName(ctx context.Context, name string) (int, 
 	if err != nil {
 		return 0, err
 	}
-	id := func() *int {
-		for _, element := range instances {
-			if element.Name == name {
-				return &element.ID
-			}
+	for _, element := range instances {
+		if element.Name == name {
+			return element.ID, nil
 		}
-		return nil
-	}()
-	if id == nil {
-		return 0, fmt.Errorf("instance \"%s\" not found", name)
 	}
-	return *id, nil
+	return 0, fmt.Errorf("instance \"%s\" not found", name)
 }
