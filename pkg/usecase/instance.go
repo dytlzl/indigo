@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/dytlzl/indigo/pkg/domain"
-	"github.com/dytlzl/indigo/pkg/infra/printer"
+	"github.com/dytlzl/indigo/pkg/infra/printutil"
 
 	"k8s.io/apimachinery/pkg/util/duration"
 )
@@ -45,7 +45,7 @@ func (u *instanceUseCase) List(ctx context.Context) error {
 		return err
 	}
 	sort.Slice(instances, func(i, j int) bool { return instances[i].Name < instances[j].Name })
-	printer.PrintTable(
+	printutil.PrintTable(
 		[]string{"NAME", "STATUS", "AGE", "IP", "OS", "PLAN"},
 		instances,
 		func(instance domain.Instance) []string {

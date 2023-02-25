@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/dytlzl/indigo/pkg/domain"
-	"github.com/dytlzl/indigo/pkg/infra/printer"
+	"github.com/dytlzl/indigo/pkg/infra/printutil"
 
 	"gopkg.in/yaml.v2"
 	"k8s.io/apimachinery/pkg/util/duration"
@@ -48,7 +48,7 @@ func (u *firewallUseCase) List(ctx context.Context) error {
 	if err != nil {
 		return err
 	}
-	printer.PrintTable(
+	printutil.PrintTable(
 		[]string{"NAME", "AGE"},
 		firewalls,
 		func(firewall domain.Firewall) []string {
@@ -73,7 +73,7 @@ func (u *firewallUseCase) Get(ctx context.Context, target string) error {
 			fmt.Printf("ID: %d\n", element.ID)
 			fmt.Printf("NAME: %s\n", element.Name)
 			fmt.Println("INBOUND:")
-			printer.PrintTable(
+			printutil.PrintTable(
 				[]string{"TYPE", "PROTOCOL", "PORT", "SOURCE"},
 				firewall.Inbound,
 				func(rule domain.Rule) []string {
@@ -82,7 +82,7 @@ func (u *firewallUseCase) Get(ctx context.Context, target string) error {
 				"  ",
 			)
 			fmt.Println("OUTBOUND:")
-			printer.PrintTable(
+			printutil.PrintTable(
 				[]string{"TYPE", "PROTOCOL", "PORT", "SOURCE"},
 				firewall.Outbound,
 				func(rule domain.Rule) []string {

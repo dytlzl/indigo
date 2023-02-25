@@ -6,7 +6,7 @@ import (
 	"strconv"
 
 	"github.com/dytlzl/indigo/pkg/domain"
-	"github.com/dytlzl/indigo/pkg/infra/printer"
+	"github.com/dytlzl/indigo/pkg/infra/printutil"
 )
 
 //go:generate go run github.com/golang/mock/mockgen -source=$GOFILE -destination=./mock/mock_$GOFILE -package=mock_$GOPACKAGE
@@ -35,7 +35,7 @@ func (u *planUseCase) List(ctx context.Context) error {
 		return err
 	}
 	sort.Slice(plans, func(i, j int) bool { return plans[i].ID < plans[j].ID })
-	printer.PrintTable(
+	printutil.PrintTable(
 		[]string{"ID", "CODE", "VCPU", "RAM", "SSD", "IP TYPE", "NETWORK"},
 		plans,
 		func(plan domain.Plan) []string {

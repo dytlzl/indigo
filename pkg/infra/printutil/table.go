@@ -1,4 +1,4 @@
-package printer
+package printutil
 
 import (
 	"fmt"
@@ -20,7 +20,6 @@ func PrintTable[T any](columnNames []string, data []T, fn func(T) []string, pref
 			}
 		}
 	}
-
 	for x, cell := range columnNames {
 		if x == len(columnNames)-1 {
 			fmt.Printf("%s%s", prefix, cell)
