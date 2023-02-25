@@ -14,6 +14,8 @@ import (
 	"github.com/dytlzl/indigo/pkg/config"
 )
 
+//go:generate go run github.com/golang/mock/mockgen -source=$GOFILE -destination=./mock/mock_$GOFILE -package=mock_$GOPACKAGE
+
 type Client interface {
 	GenerateAccessToken() (*string, error)
 	Get(ctx context.Context, endpoint string) ([]byte, error)
