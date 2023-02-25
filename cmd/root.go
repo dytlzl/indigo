@@ -37,12 +37,5 @@ func Execute() error {
 		NewDebugCmd(conf),
 		versionCmd,
 	)
-	if err != nil {
-		return err
-	}
-	err = cmd.ExecuteContext(ctx)
-	if err != nil {
-		return err
-	}
-	return nil
+	return cmd.ExecuteContext(ctx)
 }
