@@ -2,14 +2,16 @@ package cmd
 
 import (
 	"fmt"
-	"log"
 	"os"
 
+	"github.com/dytlzl/indigo/cmd/di"
+	"github.com/dytlzl/indigo/pkg/config"
+	"github.com/dytlzl/indigo/pkg/infra/cmdutil"
 	"github.com/spf13/cobra"
 	"gopkg.in/yaml.v2"
 )
 
-func NewApplyCmd() *cobra.Command {
+func NewApplyCmd(conf config.Config) *cobra.Command {
 	var (
 		filename string
 	)
@@ -30,20 +32,15 @@ func NewApplyCmd() *cobra.Command {
 			}
 			switch manifestFile.Kind {
 			case "Firewall":
-				err = firewallUseCase.Apply(cmd.Context(), fileBody)
-				if err != nil {
-					return err
-				}
+				return di.InitializeFirewallUseCase(conf).Apply(cmd.Context(), fileBody)
 			default:
 				return fmt.Errorf("invalid kind was specified: %s", manifestFile.Kind)
 			}
-			return nil
 		},
 	}
-	cmd.Flags().StringVarP(&filename, "filename", "f", "[]", "indigo -f instance.yaml")
-	err := cmd.MarkFlagRequired("filename")
-	if err != nil {
-		log.Fatalln(err)
-	}
+	cmd.Flags().AddFlagSet(cmdutil.FlagSetBuilder().
+		String(&filename, "filename", "f", "[]", "Path to the file that contains the configuration to apply", cobra.MarkFlagRequired, cmdutil.MarkFlagFilename("yaml", "yml")).
+		Build(),
+	)
 	return cmd
 }

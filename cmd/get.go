@@ -1,16 +1,18 @@
 package cmd
 
 import (
+	"github.com/dytlzl/indigo/cmd/di"
+	"github.com/dytlzl/indigo/pkg/config"
 	"github.com/spf13/cobra"
 )
 
-func NewGetCmd() *cobra.Command {
+func NewGetCmd(conf config.Config) *cobra.Command {
 	var getInstanceCmd = &cobra.Command{
 		Use:     "instance",
 		Aliases: []string{"i", "instances"},
 		Short:   "Get instance(s)",
 		RunE: func(cmd *cobra.Command, args []string) error {
-			return instanceUseCase.List(cmd.Context())
+			return di.InitializeInstanceUseCase(conf).List(cmd.Context())
 		},
 	}
 	var getOSCmd = &cobra.Command{
@@ -18,46 +20,35 @@ func NewGetCmd() *cobra.Command {
 		Aliases: []string{"oses"},
 		Short:   "Get OS(es)",
 		RunE: func(cmd *cobra.Command, args []string) error {
-			return osUseCase.List(cmd.Context())
+			return di.InitializeOSUseCase(conf).List(cmd.Context())
 		},
 	}
-
 	var getSSHKeyCmd = &cobra.Command{
 		Use:     "sshkey",
 		Aliases: []string{"sk", "sshkeys"},
 		Short:   "Get SSH Key(s)",
 		RunE: func(cmd *cobra.Command, args []string) error {
-			return sshKeyUseCase.List(cmd.Context())
+			return di.InitializeSSHKeyUseCase(conf).List(cmd.Context())
 		},
 	}
-
 	var getPlanCmd = &cobra.Command{
 		Use:     "plan",
 		Aliases: []string{"p", "plans"},
 		Short:   "Get plan(s)",
 		RunE: func(cmd *cobra.Command, args []string) error {
-			return planUseCase.List(cmd.Context())
+			return di.InitializePlanUseCase(conf).List(cmd.Context())
 		},
 	}
-
-	// getFirewallCmd represents the firewall command
 	var getFirewallCmd = &cobra.Command{
 		Use:     "firewall",
 		Aliases: []string{"fw", "firewalls"},
 		Short:   "Get firewall(s)",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) != 0 {
-				err := firewallUseCase.Get(cmd.Context(), args[0])
-				if err != nil {
-					return err
-				}
+				return di.InitializeFirewallUseCase(conf).Get(cmd.Context(), args[0])
 			} else {
-				err := firewallUseCase.List(cmd.Context())
-				if err != nil {
-					return err
-				}
+				return di.InitializeFirewallUseCase(conf).List(cmd.Context())
 			}
-			return nil
 		},
 	}
 	cmd := &cobra.Command{

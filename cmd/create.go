@@ -1,12 +1,13 @@
 package cmd
 
 import (
-	"log"
-
+	"github.com/dytlzl/indigo/cmd/di"
+	"github.com/dytlzl/indigo/pkg/config"
+	"github.com/dytlzl/indigo/pkg/infra/cmdutil"
 	"github.com/spf13/cobra"
 )
 
-func NewCreatCmd() *cobra.Command {
+func NewCreatCmd(conf config.Config) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "create",
 		Short: "Create a resource",
@@ -23,21 +24,16 @@ func NewCreatCmd() *cobra.Command {
 		Short:   "Create a instance",
 		Args:    cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
-			return instanceUseCase.Create(cmd.Context(), args[0], planID, osID, regionID, sshKeyID)
+			return di.InitializeInstanceUseCase(conf).Create(cmd.Context(), args[0], planID, osID, regionID, sshKeyID)
 		},
 	}
-	createInstanceCmd.Flags().IntVar(&planID, "plan-id", -1, "plan(Size) ID")
-	err := createInstanceCmd.MarkFlagRequired("plan-id")
-	if err != nil {
-		log.Fatalln(err)
-	}
-	createInstanceCmd.Flags().IntVar(&sshKeyID, "ssh-key-id", -1, "SSH key ID")
-	err = createInstanceCmd.MarkFlagRequired("ssh-key-id")
-	if err != nil {
-		log.Fatalln(err)
-	}
-	createInstanceCmd.Flags().IntVar(&osID, "os-id", 13, "OS ID (Ubuntu 22.04 13)")
-	createInstanceCmd.Flags().IntVar(&regionID, "region-id", 1, "region ID")
+	cmd.Flags().AddFlagSet(cmdutil.FlagSetBuilder().
+		Int(&planID, "plan-id", "", -1, "plan(Size) ID", cobra.MarkFlagRequired).
+		Int(&sshKeyID, "ssh-key-id", "", -1, "SSH key ID", cobra.MarkFlagRequired).
+		Int(&osID, "os-id", "", 13, "OS ID (Ubuntu 22.04 13)").
+		Int(&regionID, "region-id", "", 1, "region ID").
+		Build(),
+	)
 	cmd.AddCommand(createInstanceCmd)
 	return cmd
 }

@@ -42,22 +42,12 @@ type AuthResponse struct {
 }
 
 // NewClient -
-func NewClient(conf config.Config) (Client, error) {
+func NewClient(conf config.Config) Client {
 	c := client{
 		HTTPClient: &http.Client{Timeout: 30 * time.Second},
 		conf:       conf,
 	}
-	if c.conf.Token() == "" {
-		token, err := c.GenerateAccessToken()
-		if err != nil {
-			return nil, err
-		}
-		err = c.conf.SetToken(*token)
-		if err != nil {
-			log.Println("failed to persist token")
-		}
-	}
-	return &c, nil
+	return &c
 }
 
 func (c *client) GenerateAccessToken() (*string, error) {
@@ -136,6 +126,16 @@ func (c *client) Delete(ctx context.Context, endpoint string) ([]byte, error) {
 }
 
 func (c *client) doRequestWithRetry(ctx context.Context, method, endpoint string, reqBody io.Reader) ([]byte, error) {
+	if c.conf.Token() == "" {
+		token, err := c.GenerateAccessToken()
+		if err != nil {
+			return nil, err
+		}
+		err = c.conf.SetToken(*token)
+		if err != nil {
+			log.Println("failed to persist token")
+		}
+	}
 	res, resBody, err := c.doRequest(ctx, method, endpoint, reqBody)
 	if err != nil {
 		return nil, err

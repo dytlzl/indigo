@@ -7,10 +7,6 @@ import (
 	"time"
 
 	"github.com/dytlzl/indigo/pkg/config"
-	"github.com/dytlzl/indigo/pkg/infra/api"
-	"github.com/dytlzl/indigo/pkg/infra/repository"
-	"github.com/dytlzl/indigo/pkg/usecase"
-
 	"github.com/spf13/cobra"
 )
 
@@ -30,17 +26,17 @@ func Execute() error {
 		return err
 	}
 	cmd.PersistentFlags().StringVar(&configFilename, "config", filepath.Join(u.HomeDir, ".indigo.yaml"), "config file (default is $HOME/.indigo.yaml)")
+	conf := config.NewConfig(configFilename)
 	cmd.AddCommand(
-		NewApplyCmd(),
-		NewCreatCmd(),
-		NewDeleteCmd(),
-		NewGetCmd(),
-		NewStartCmd(),
-		NewStopCmd(),
+		NewApplyCmd(conf),
+		NewCreatCmd(conf),
+		NewDeleteCmd(conf),
+		NewGetCmd(conf),
+		NewStartCmd(conf),
+		NewStopCmd(conf),
+		NewDebugCmd(conf),
 		versionCmd,
-		debugCmd,
 	)
-	err = InitUseCases(configFilename)
 	if err != nil {
 		return err
 	}
@@ -48,33 +44,5 @@ func Execute() error {
 	if err != nil {
 		return err
 	}
-	return nil
-}
-
-var (
-	client          api.Client
-	instanceUseCase usecase.InstanceUseCase
-	firewallUseCase usecase.FirewallUseCase
-	osUseCase       usecase.OSUseCase
-	sshKeyUseCase   usecase.SSHKeyUseCase
-	planUseCase     usecase.PlanUseCase
-)
-
-func InitUseCases(configFilename string) error {
-	conf := config.NewConfig(configFilename)
-	client, err := api.NewClient(conf)
-	if err != nil {
-		return err
-	}
-	ir := repository.NewAPIInstanceRepository(client)
-	fr := repository.NewAPIFirewallRepository(client)
-	or := repository.NewAPIOSRepository(client)
-	pr := repository.NewJSONPlanRepository()
-	sr := repository.NewAPISSHKeyRepository(client)
-	instanceUseCase = usecase.NewInstanceUseCase(ir)
-	firewallUseCase = usecase.NewFirewallUseCase(fr, ir)
-	osUseCase = usecase.NewOSUseCase(or)
-	sshKeyUseCase = usecase.NewSSHKeyUseCase(sr)
-	planUseCase = usecase.NewPlanUseCase(pr)
 	return nil
 }
