@@ -27,7 +27,7 @@ func NewCreatCmd(conf config.Config) *cobra.Command {
 			return di.InitializeInstanceUseCase(conf).Create(cmd.Context(), args[0], planID, osID, regionID, sshKeyID)
 		},
 	}
-	cmd.Flags().AddFlagSet(cmdutil.FlagSetBuilder().
+	createInstanceCmd.Flags().AddFlagSet(cmdutil.FlagSetBuilder().
 		Int(&planID, "plan-id", "", -1, "plan(Size) ID", cobra.MarkFlagRequired).
 		Int(&sshKeyID, "ssh-key-id", "", -1, "SSH key ID", cobra.MarkFlagRequired).
 		Int(&osID, "os-id", "", 13, "OS ID (Ubuntu 22.04 13)").
