@@ -26,7 +26,6 @@ func (a *apiSSHKeyRepository) List(ctx context.Context) ([]domain.SSHKey, error)
 	if err != nil {
 		return nil, err
 	}
-
 	sshKeyList := sshKeyListResponse{}
 	err = json.Unmarshal(bytes, &sshKeyList)
 	if err != nil {

@@ -3,7 +3,6 @@ package usecase
 import (
 	"context"
 	"sort"
-	"strconv"
 
 	"github.com/dytlzl/indigo/pkg/domain"
 	"github.com/dytlzl/indigo/pkg/infra/printutil"
@@ -35,13 +34,6 @@ func (u *osUseCase) List(ctx context.Context) error {
 		return err
 	}
 	sort.Slice(oses, func(i, j int) bool { return oses[i].Name < oses[j].Name })
-	printutil.PrintTable(
-		[]string{"NAME", "ID"},
-		oses,
-		func(os domain.OS) []string {
-			return []string{os.Name, strconv.Itoa(os.ID)}
-		},
-		"",
-	)
+	printutil.PrintTable(oses)
 	return nil
 }

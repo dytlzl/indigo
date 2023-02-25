@@ -3,7 +3,6 @@ package usecase
 import (
 	"context"
 	"sort"
-	"strconv"
 
 	"github.com/dytlzl/indigo/pkg/domain"
 	"github.com/dytlzl/indigo/pkg/infra/printutil"
@@ -35,21 +34,6 @@ func (u *planUseCase) List(ctx context.Context) error {
 		return err
 	}
 	sort.Slice(plans, func(i, j int) bool { return plans[i].ID < plans[j].ID })
-	printutil.PrintTable(
-		[]string{"ID", "CODE", "VCPU", "RAM", "SSD", "IP TYPE", "NETWORK"},
-		plans,
-		func(plan domain.Plan) []string {
-			return []string{
-				strconv.Itoa(plan.ID),
-				plan.Code,
-				strconv.Itoa(plan.VCPU),
-				strconv.Itoa(plan.RAM),
-				strconv.Itoa(plan.SSD),
-				plan.IPType,
-				plan.Network,
-			}
-		},
-		"",
-	)
+	printutil.PrintTable(plans)
 	return nil
 }

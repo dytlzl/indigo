@@ -6,17 +6,17 @@ import (
 
 type Firewall struct {
 	ID        int
-	Name      string   `yaml:"name"`
-	Inbound   []Rule   `yaml:"inbound"`
-	Outbound  []Rule   `yaml:"outbound"`
-	Instances []string `yaml:"instances"`
-	CreatedAt time.Time
+	Name      string    `yaml:"name" print:",NAME"`
+	Inbound   []Rule    `yaml:"inbound"`
+	Outbound  []Rule    `yaml:"outbound"`
+	Instances []string  `yaml:"instances"`
+	CreatedAt time.Time `print:",AGE"`
 	UpdatedAt time.Time
 }
 
 type Rule struct {
-	Type     string `yaml:"type" json:"type"`
-	Protocol string `yaml:"protocol" json:"protocol"`
-	Port     string `yaml:"port" json:"port"`
-	Source   string `yaml:"source" json:"source"`
+	Type     string `yaml:"type" json:"type" print:",TYPE"`
+	Protocol string `yaml:"protocol" json:"protocol" print:",PROTOCOL"`
+	Port     string `yaml:"port" json:"port" print:",PORT"`
+	Source   string `yaml:"source" json:"source" print:",SOURCE"`
 }

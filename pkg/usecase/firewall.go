@@ -5,13 +5,11 @@ import (
 	"fmt"
 	"net"
 	"strconv"
-	"time"
 
 	"github.com/dytlzl/indigo/pkg/domain"
 	"github.com/dytlzl/indigo/pkg/infra/printutil"
 
 	"gopkg.in/yaml.v2"
-	"k8s.io/apimachinery/pkg/util/duration"
 )
 
 //go:generate go run github.com/golang/mock/mockgen -source=$GOFILE -destination=./mock/mock_$GOFILE -package=mock_$GOPACKAGE
@@ -48,14 +46,7 @@ func (u *firewallUseCase) List(ctx context.Context) error {
 	if err != nil {
 		return err
 	}
-	printutil.PrintTable(
-		[]string{"NAME", "AGE"},
-		firewalls,
-		func(firewall domain.Firewall) []string {
-			return []string{firewall.Name, duration.HumanDuration(time.Since(firewall.CreatedAt))}
-		},
-		"",
-	)
+	printutil.PrintTable(firewalls)
 	return nil
 }
 
@@ -73,21 +64,13 @@ func (u *firewallUseCase) Get(ctx context.Context, target string) error {
 			fmt.Printf("ID: %d\n", element.ID)
 			fmt.Printf("NAME: %s\n", element.Name)
 			fmt.Println("INBOUND:")
-			printutil.PrintTable(
-				[]string{"TYPE", "PROTOCOL", "PORT", "SOURCE"},
+			printutil.PrintTableWithPrefix(
 				firewall.Inbound,
-				func(rule domain.Rule) []string {
-					return []string{rule.Type, rule.Protocol, rule.Port, rule.Source}
-				},
 				"  ",
 			)
 			fmt.Println("OUTBOUND:")
-			printutil.PrintTable(
-				[]string{"TYPE", "PROTOCOL", "PORT", "SOURCE"},
+			printutil.PrintTableWithPrefix(
 				firewall.Outbound,
-				func(rule domain.Rule) []string {
-					return []string{rule.Type, rule.Protocol, rule.Port, rule.Source}
-				},
 				"  ",
 			)
 			return nil

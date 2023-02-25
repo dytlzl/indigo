@@ -3,7 +3,6 @@ package usecase
 import (
 	"context"
 	"sort"
-	"strconv"
 
 	"github.com/dytlzl/indigo/pkg/domain"
 	"github.com/dytlzl/indigo/pkg/infra/printutil"
@@ -35,13 +34,6 @@ func (u *sshKeyUseCase) List(ctx context.Context) error {
 		return err
 	}
 	sort.Slice(sshKeys, func(i, j int) bool { return sshKeys[i].Name < sshKeys[j].Name })
-	printutil.PrintTable(
-		[]string{"NAME", "ID", "STATUS"},
-		sshKeys,
-		func(sshKey domain.SSHKey) []string {
-			return []string{sshKey.Name, strconv.Itoa(sshKey.ID), sshKey.Status}
-		},
-		"",
-	)
+	printutil.PrintTable(sshKeys)
 	return nil
 }

@@ -4,12 +4,9 @@ import (
 	"context"
 	"fmt"
 	"sort"
-	"time"
 
 	"github.com/dytlzl/indigo/pkg/domain"
 	"github.com/dytlzl/indigo/pkg/infra/printutil"
-
-	"k8s.io/apimachinery/pkg/util/duration"
 )
 
 //go:generate go run github.com/golang/mock/mockgen -source=$GOFILE -destination=./mock/mock_$GOFILE -package=mock_$GOPACKAGE
@@ -45,14 +42,7 @@ func (u *instanceUseCase) List(ctx context.Context) error {
 		return err
 	}
 	sort.Slice(instances, func(i, j int) bool { return instances[i].Name < instances[j].Name })
-	printutil.PrintTable(
-		[]string{"NAME", "STATUS", "AGE", "IP", "OS", "PLAN"},
-		instances,
-		func(instance domain.Instance) []string {
-			return []string{instance.Name, instance.Status, duration.HumanDuration(time.Since(instance.StartedAt)), instance.IP, instance.OSName, instance.PlanName}
-		},
-		"",
-	)
+	printutil.PrintTable(instances)
 	return nil
 }
 
