@@ -78,11 +78,14 @@ func columnsFromStruct(slice any) []column {
 	columns := make([]column, 0, t.NumField())
 	for i := 0; i < t.NumField(); i++ {
 		tag := strings.Split(t.Field(i).Tag.Get("print"), ",")
-		if len(tag) > 1 {
-			index, _ := strconv.Atoi(tag[0])
+		if len(tag) >= 1 {
+			index := 0
+			if len(tag) >= 2 {
+				index, _ = strconv.Atoi(tag[1])
+			}
 			columns = append(columns, column{
 				index: index,
-				name:  tag[1],
+				name:  tag[0],
 				field: t.Field(i).Name,
 			})
 		}

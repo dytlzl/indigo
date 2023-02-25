@@ -16,18 +16,18 @@ func Test_stringSliceFromStruct(t *testing.T) {
 		{
 			name: "return correct value",
 			strct: struct {
-				ID        int       `print:"1,id"`
-				Name      string    `print:"2,name"`
-				UpdatedAt time.Time `print:"3,age"`
+				ID        int       `print:"id"`
+				Name      string    `print:"name"`
+				UpdatedAt time.Time `print:"age"`
 			}{
 				ID:        1,
 				Name:      "name01",
 				UpdatedAt: time.Now(),
 			},
 			columns: columnsFromStruct([]struct {
-				ID        int       `print:"1,id"`
-				Name      string    `print:"2,name"`
-				UpdatedAt time.Time `print:"3,age"`
+				ID        int       `print:"id"`
+				Name      string    `print:"name"`
+				UpdatedAt time.Time `print:"age"`
 			}{}),
 			want: []string{"1", "name01", "0s"},
 		},
@@ -50,11 +50,11 @@ func Test_columnNamesFromStruct(t *testing.T) {
 		{
 			name: "return correct value",
 			arg: []struct {
-				ID        int       `print:"1,id"`
-				Name      string    `print:"2,name"`
-				UpdatedAt time.Time `print:"3,age"`
+				ID        int       `print:"id"`
+				Name      string    `print:"name,1"`
+				UpdatedAt time.Time `print:"age,2"`
 			}{},
-			want: []column{{1, "id", "ID"}, {2, "name", "Name"}, {3, "age", "UpdatedAt"}},
+			want: []column{{0, "id", "ID"}, {1, "name", "Name"}, {2, "age", "UpdatedAt"}},
 		},
 	}
 	for _, tt := range tests {
