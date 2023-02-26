@@ -13,4 +13,4 @@ test:
 lint:
 	golangci-lint run
 
-all: gen fmt lint test
+all: gen fmt mod test lint
