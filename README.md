@@ -1,4 +1,5 @@
 # indigo
+[![ci](https://github.com/dytlzl/indigo/workflows/ci/badge.svg)](https://github.com/dytlzl/indigo/actions/workflows/ci.yaml)
 
 indigo is a [WebARENA Indigo API](https://indigo.arena.ne.jp/userapi/) client written in Go.
 
