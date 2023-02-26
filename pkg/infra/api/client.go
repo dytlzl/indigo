@@ -2,6 +2,7 @@ package api
 
 import (
 	"context"
+	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -12,6 +13,7 @@ import (
 	"time"
 
 	"github.com/dytlzl/indigo/pkg/config"
+	"github.com/dytlzl/indigo/pkg/infra/localfilecache"
 )
 
 //go:generate go run github.com/golang/mock/mockgen -source=$GOFILE -destination=./mock/mock_$GOFILE -package=mock_$GOPACKAGE
@@ -112,7 +114,19 @@ func (c *client) doSignInRequest(req *http.Request) ([]byte, error) {
 }
 
 func (c *client) Get(ctx context.Context, endpoint string) ([]byte, error) {
-	return c.doRequestWithRetry(ctx, "GET", endpoint, nil)
+	cache := localfilecache.NewCacheFile(base64.StdEncoding.EncodeToString([]byte(endpoint)))
+	b, err := cache.Read()
+	if err == nil {
+		return b, nil
+	}
+	b, err = c.doRequestWithRetry(ctx, "GET", endpoint, nil)
+	if err == nil {
+		cErr := cache.Write(b)
+		if cErr != nil {
+			log.Println(cErr)
+		}
+	}
+	return b, err
 }
 
 func (c *client) Post(ctx context.Context, endpoint string, body io.Reader) ([]byte, error) {
