@@ -1,0 +1,38 @@
+[
+    {
+        "id": 1,
+        "name": "default",
+        "direction": "in",
+        "type": "HTTPS",
+        "protocol": "TCP",
+        "port": "443",
+        "source": "0.0.0.0\/0"
+    },
+    {
+        "id": 1,
+        "name": "default",
+        "direction": "in",
+        "type": "HTTP",
+        "protocol": "TCP",
+        "port": "80",
+        "source": "0.0.0.0\/0"
+    },
+    {
+        "id": 1,
+        "name": "default",
+        "direction": "in",
+        "type": "Custom",
+        "protocol": "TCP",
+        "port": "22",
+        "source": "192.168.100.100\/32"
+    },
+    {
+        "id": 1,
+        "name": "default",
+        "direction": "out",
+        "type": "Custom",
+        "protocol": "ICMP",
+        "port": "",
+        "source": "192.168.100.100\/32"
+    }
+]

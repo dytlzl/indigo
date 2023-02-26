@@ -61,18 +61,18 @@ type templateResponse struct {
 	Source    string `json:"source"`
 }
 
-func (a *apiFirewallRepository) Get(ctx context.Context, id int) (*domain.Firewall, error) {
+func (a *apiFirewallRepository) Get(ctx context.Context, id int) (domain.Firewall, error) {
 	bytes, err := a.Client.Get(ctx, fmt.Sprintf("/nw/gettemplate/%d", id))
 	if err != nil {
-		return nil, err
+		return domain.Firewall{}, err
 	}
 	templateList := make([]templateResponse, 0)
 	err = json.Unmarshal(bytes, &templateList)
 	if err != nil {
-		return nil, err
+		return domain.Firewall{}, err
 	}
 	if len(templateList) == 0 {
-		return nil, nil
+		return domain.Firewall{}, nil
 	}
 	firewall := domain.Firewall{}
 	firewall.ID = id
@@ -86,7 +86,7 @@ func (a *apiFirewallRepository) Get(ctx context.Context, id int) (*domain.Firewa
 			firewall.Outbound = append(firewall.Outbound, domain.Rule{Type: template.Type, Protocol: template.Protocol, Port: template.Port, Source: template.Source})
 		}
 	}
-	return &firewall, nil
+	return firewall, nil
 }
 
 type FirewallRequest struct {
@@ -97,7 +97,7 @@ type FirewallRequest struct {
 	Instances  []string      `json:"instances"`
 }
 
-func (a *apiFirewallRepository) Update(ctx context.Context, fw *domain.Firewall) error {
+func (a *apiFirewallRepository) Update(ctx context.Context, fw domain.Firewall) error {
 	firewallRequest := FirewallRequest{}
 	firewallRequest.TemplateID = fw.ID
 	firewallRequest.Name = fw.Name
@@ -116,7 +116,7 @@ func (a *apiFirewallRepository) Update(ctx context.Context, fw *domain.Firewall)
 	return nil
 }
 
-func (a *apiFirewallRepository) Create(ctx context.Context, fw *domain.Firewall) error {
+func (a *apiFirewallRepository) Create(ctx context.Context, fw domain.Firewall) error {
 	firewallRequest := FirewallRequest{}
 	firewallRequest.TemplateID = fw.ID
 	firewallRequest.Name = fw.Name

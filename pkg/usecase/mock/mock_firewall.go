@@ -36,7 +36,7 @@ func (m *MockFirewallRepository) EXPECT() *MockFirewallRepositoryMockRecorder {
 }
 
 // Create mocks base method.
-func (m *MockFirewallRepository) Create(ctx context.Context, fw *domain.Firewall) error {
+func (m *MockFirewallRepository) Create(ctx context.Context, fw domain.Firewall) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Create", ctx, fw)
 	ret0, _ := ret[0].(error)
@@ -64,10 +64,10 @@ func (mr *MockFirewallRepositoryMockRecorder) Delete(ctx, id interface{}) *gomoc
 }
 
 // Get mocks base method.
-func (m *MockFirewallRepository) Get(ctx context.Context, id int) (*domain.Firewall, error) {
+func (m *MockFirewallRepository) Get(ctx context.Context, id int) (domain.Firewall, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Get", ctx, id)
-	ret0, _ := ret[0].(*domain.Firewall)
+	ret0, _ := ret[0].(domain.Firewall)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -94,7 +94,7 @@ func (mr *MockFirewallRepositoryMockRecorder) List(ctx interface{}) *gomock.Call
 }
 
 // Update mocks base method.
-func (m *MockFirewallRepository) Update(ctx context.Context, fw *domain.Firewall) error {
+func (m *MockFirewallRepository) Update(ctx context.Context, fw domain.Firewall) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Update", ctx, fw)
 	ret0, _ := ret[0].(error)

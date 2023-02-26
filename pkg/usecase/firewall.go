@@ -16,9 +16,9 @@ import (
 
 type FirewallRepository interface {
 	List(ctx context.Context) ([]domain.Firewall, error)
-	Get(ctx context.Context, id int) (*domain.Firewall, error)
-	Create(ctx context.Context, fw *domain.Firewall) error
-	Update(ctx context.Context, fw *domain.Firewall) error
+	Get(ctx context.Context, id int) (domain.Firewall, error)
+	Create(ctx context.Context, fw domain.Firewall) error
+	Update(ctx context.Context, fw domain.Firewall) error
 	Delete(ctx context.Context, id int) error
 }
 
@@ -130,13 +130,13 @@ func (u *firewallUseCase) Apply(ctx context.Context, fileBody []byte) error {
 		}
 	}
 	if fw.ID == 0 {
-		err = u.firewallRepository.Create(ctx, &fw)
+		err = u.firewallRepository.Create(ctx, fw)
 		if err != nil {
 			return err
 		}
 		fmt.Printf("firewall \"%s\" created\n", fw.Name)
 	} else {
-		err = u.firewallRepository.Update(ctx, &fw)
+		err = u.firewallRepository.Update(ctx, fw)
 		if err != nil {
 			return err
 		}
