@@ -53,6 +53,7 @@ func Test_columnNamesFromStruct(t *testing.T) {
 				ID        int       `print:"id"`
 				Name      string    `print:"name,1"`
 				UpdatedAt time.Time `print:"age,2"`
+				CreatedAt time.Time
 			}{},
 			want: []column{{0, "id", "ID"}, {1, "name", "Name"}, {2, "age", "UpdatedAt"}},
 		},
