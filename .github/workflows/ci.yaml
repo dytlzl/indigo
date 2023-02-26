@@ -15,12 +15,14 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-go@v3.5.0
+      - uses: actions/setup-go@v3
         with:
           go-version: ${{ matrix.go }}
-
       - run: go generate ./...
+      - run: go install golang.org/x/tools/cmd/goimports@latest
       - run: goimports -w .
       - run: git diff --cached --exit-code
       - run: go test ./...
-      - run: golangci-lint
+      - uses: golangci/golangci-lint-action@v3
+        with:
+          version: v3.4
