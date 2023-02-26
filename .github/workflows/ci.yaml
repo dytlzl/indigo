@@ -1,0 +1,26 @@
+name: ci
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+jobs:
+  test:
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        go: ["1.18"]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-go@v3.5.0
+        with:
+          go-version: ${{ matrix.go }}
+
+      - run: go generate ./...
+      - run: goimports -w .
+      - run: git diff --cached --exit-code
+      - run: go test ./...
+      - run: golangci-lint
