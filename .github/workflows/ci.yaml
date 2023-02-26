@@ -25,4 +25,4 @@ jobs:
       - run: go test ./...
       - uses: golangci/golangci-lint-action@v3
         with:
-          version: v3.4
+          version: v1.51
